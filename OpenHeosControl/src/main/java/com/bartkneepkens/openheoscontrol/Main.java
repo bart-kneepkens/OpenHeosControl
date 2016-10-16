@@ -33,6 +33,8 @@ public class Main {
         sys.connect();
         
         sys.accountCheck();
+        
+        sys.getPlayers();
     }
     
 }

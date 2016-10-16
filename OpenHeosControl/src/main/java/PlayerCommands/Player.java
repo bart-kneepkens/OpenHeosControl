@@ -14,12 +14,29 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.bartkneepkens.openheoscontrol;
+package PlayerCommands;
+
+import java.util.Map;
 
 /**
  *
  * @author bart-kneepkens
  */
 public class Player {
+    private String name;
+    private Double pid;
+    private String model;
+    private String version;
+    private Double gid;
     
+    public Player(Map<String, Object> map){
+        this.name = (String) map.get("name");
+        this.pid = (Double) map.get("pid");
+        this.model = (String) map.get("model");
+        this.version = (String) map.get("version");
+        
+        if(map.containsKey("gid")){
+            this.gid = (Double) map.get("gid");
+        }
+    }
 }

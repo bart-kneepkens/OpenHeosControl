@@ -16,6 +16,7 @@
  */
 package SystemCommands;
 
+import PlayerCommands.Player;
 import com.bartkneepkens.openheoscontrol.Response;
 import com.bartkneepkens.openheoscontrol.constants.Commands;
 import com.bartkneepkens.openheoscontrol.constants.Results;
@@ -26,6 +27,9 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import com.google.gson.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -114,10 +118,29 @@ public class HeosSystem {
     }
     
     public boolean systemHeartBeat(){
-        out.write(Commands.HEARTBEAT);
+        out.println(Commands.HEARTBEAT);
         
         Response response = gson.fromJson(in.next(), Response.class);
         
         return response.getResult().equals(Results.SUCCESS);
+    }
+    
+    public List<Player> getPlayers(){
+        
+        out.println(Commands.GET_PLAYERS);
+        
+        Response response = gson.fromJson(in.next(), Response.class);
+        
+        if(response.getResult().equals(Results.SUCCESS)){
+            List<Player> toBeReturned = new ArrayList<>();
+            
+            for (Map<String, Object> map : (List<Map<String, Object>>) response.getPayload() ) {
+                toBeReturned.add(new Player(map));
+            }
+            
+            return toBeReturned;
+        }
+        
+        return null;
     }
 }
