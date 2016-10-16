@@ -18,7 +18,7 @@ package com.bartkneepkens.openheoscontrol.constants;
 
 /**
  *
- * @author BartKneepkens
+ * @author bart-kneepkens
  */
 public class Commands {
     public static String HEARTBEAT = "heos://system/heart_beat";

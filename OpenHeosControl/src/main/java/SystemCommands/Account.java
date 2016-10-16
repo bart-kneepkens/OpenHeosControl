@@ -18,7 +18,7 @@ package SystemCommands;
 
 /**
  *
- * @author BartKneepkens
+ * @author bart-kneepkens
  */
 public class Account {
     private String username;

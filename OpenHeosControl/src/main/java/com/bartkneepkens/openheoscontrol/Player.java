@@ -18,7 +18,7 @@ package com.bartkneepkens.openheoscontrol;
 
 /**
  *
- * @author BartKneepkens
+ * @author bart-kneepkens
  */
 public class Player {
     

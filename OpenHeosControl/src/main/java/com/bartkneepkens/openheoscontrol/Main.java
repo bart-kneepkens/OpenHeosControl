@@ -20,7 +20,7 @@ import SystemCommands.HeosSystem;
 
 /**
  *
- * @author BartKneepkens
+ * @author bart-kneepkens
  */
 public class Main {
 

@@ -29,7 +29,7 @@ import com.google.gson.*;
 
 /**
  *
- * @author BartKneepkens
+ * @author bart-kneepkens
  */
 public class HeosSystem {
     

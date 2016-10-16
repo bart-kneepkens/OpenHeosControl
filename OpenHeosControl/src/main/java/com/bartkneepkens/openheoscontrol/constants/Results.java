@@ -18,7 +18,7 @@ package com.bartkneepkens.openheoscontrol.constants;
 
 /**
  *
- * @author BartKneepkens
+ * @author bart-kneepkens
  */
 public class Results {
     public static String SUCCESS = "success";
