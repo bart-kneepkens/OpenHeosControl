@@ -59,6 +59,7 @@ public class TelnetConnection {
     public static Response write(String command){
         // Check for null socket etc
         out.println(command);
+        out.flush();
         return gson.fromJson(in.next(), Response.class);
     }
 }
