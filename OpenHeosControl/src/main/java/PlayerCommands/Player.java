@@ -71,6 +71,10 @@ public class Player {
         return null;
     }
     
+    /**
+     * 
+     * @return the volume (0-100). -1 if operation failed.
+     */
     public int getVolume(){
         Response response = TelnetConnection.write(PlayerCommands.GET_VOLUME(this.pid));
         
@@ -84,6 +88,11 @@ public class Player {
         return -1;
     }
     
+    /**
+     * 
+     * @param newVolume (between 0-100)
+     * @return The volume after setting it. -1 if operation failed.
+     */
     public int setVolume(int newVolume){
         Response response = TelnetConnection.write(PlayerCommands.SET_VOLUME(this.pid, newVolume));
         
@@ -95,5 +104,22 @@ public class Player {
             }
         }
         return -1;
+    }
+    
+    /**
+     * 
+     * @param step (between 1-10)
+     * @return 
+     */
+    public boolean volumeUp(int step){
+        Response response = TelnetConnection.write(PlayerCommands.VOLUME_UP(this.pid, step));
+        
+        return response.getResult().equals(Results.SUCCESS);            
+    }
+    
+    public boolean volumeDown(int step){
+        Response response = TelnetConnection.write(PlayerCommands.VOLUME_DOWN(this.pid, step));
+        
+        return response.getResult().equals(Results.SUCCESS);    
     }
 }

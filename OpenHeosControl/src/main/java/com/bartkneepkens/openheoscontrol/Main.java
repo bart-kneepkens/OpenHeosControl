@@ -19,6 +19,7 @@ package com.bartkneepkens.openheoscontrol;
 import PlayerCommands.Player;
 import SystemCommands.HeosSystem;
 import com.bartkneepkens.openheoscontrol.constants.PlayStates;
+import java.util.Scanner;
 
 /**
  *
@@ -29,7 +30,10 @@ public class Main {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
+        
+        Scanner in = new Scanner(System.in);
+        
         System.out.println("STARTING");
         HeosSystem sys = new HeosSystem("192.168.2.3");
         
@@ -37,15 +41,29 @@ public class Main {
         
         Player p = sys.getPlayers().get(0);
         
-        System.out.println(p.getPlayState());
-        
-        System.out.println(p.setPlayState(PlayStates.PLAY));
-        
-        System.out.println(p.getPlayState());
-       
-        System.out.println(p.getVolume());
-        
-        System.out.println(p.setVolume(13));
+        while(true){
+            String input = in.next();
+            
+            if(input.equals("end")){
+                break;
+            }
+            
+            if(input.equals("up")){
+                p.volumeUp(5);
+            }
+            
+            if(input.equals("down")){
+                p.volumeDown(5);
+            }
+            
+            if(input.equals("play")){
+                p.setPlayState("play");
+            }
+            
+            if(input.equals("pause")){
+                p.setPlayState("pause");
+            }
+        }
     }
     
 }

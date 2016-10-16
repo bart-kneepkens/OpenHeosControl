@@ -36,4 +36,12 @@ public class PlayerCommands {
     public static final String SET_VOLUME(String pid, int level){
         return "heos://player/set_volume?pid=" + pid + "&level=" + String.valueOf(level);
     }
+    
+    public static final String VOLUME_UP(String pid, int step){
+        return "heos://player/volume_up?pid=" + pid + "&step=" + String.valueOf(step);
+    }
+    
+    public static final String VOLUME_DOWN(String pid, int step){
+        return "heos://player/volume_down?pid=" + pid + "&step=" + String.valueOf(step);
+    }
 }
