@@ -20,13 +20,8 @@ package com.bartkneepkens.openheoscontrol.constants;
  *
  * @author bart-kneepkens
  */
-public class Commands {
-    public static String HEARTBEAT = "heos://system/heart_beat";
-    public static String GET_PLAYERS = "heos://player/get_players";
-    
-    public static String ACCOUNT_CHECK = "heos://system/check_account";
-    public static String ACCOUNT_SIGN_IN(String username, String password){
-        return "heos://system/sign_in?un=" + username + "&pw=" + password;
-    } 
-    public static String ACCOUNT_SIGN_OUT = "heos://system/sign_out";
+public class PlayStates {
+    public static final String PLAY = "play";
+    public static final String PAUSE = "pause";
+    public static final String STOP = "stop";
 }

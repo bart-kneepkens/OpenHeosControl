@@ -14,30 +14,19 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.bartkneepkens.openheoscontrol;
-
-import PlayerCommands.Player;
-import SystemCommands.HeosSystem;
+package SystemCommands;
 
 /**
  *
  * @author bart-kneepkens
  */
-public class Main {
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        System.out.println("STARTING");
-        HeosSystem sys = new HeosSystem("192.168.2.3");
-        sys.connect();
-        
-        sys.accountCheck();
-        
-        Player p = sys.getPlayers().get(0);
-        
-        System.out.println(p.getPlayState());
-    }
+public class SystemCommands {
+    public static String HEARTBEAT = "heos://system/heart_beat";
+    public static String GET_PLAYERS = "heos://player/get_players";
     
+    public static String ACCOUNT_CHECK = "heos://system/check_account";
+    public static String ACCOUNT_SIGN_IN(String username, String password){
+        return "heos://system/sign_in?un=" + username + "&pw=" + password;
+    } 
+    public static String ACCOUNT_SIGN_OUT = "heos://system/sign_out";    
 }

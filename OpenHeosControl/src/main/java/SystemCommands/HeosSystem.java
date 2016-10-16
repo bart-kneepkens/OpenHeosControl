@@ -18,7 +18,6 @@ package SystemCommands;
 
 import PlayerCommands.Player;
 import com.bartkneepkens.openheoscontrol.Response;
-import com.bartkneepkens.openheoscontrol.constants.Commands;
 import com.bartkneepkens.openheoscontrol.constants.Results;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -40,11 +39,11 @@ public class HeosSystem {
     private String ipAddress;
     
     /* Networking */
-    private Socket socket;
-    private PrintWriter out;
-    private Scanner in;
+    private static Socket socket;
+    private static PrintWriter out;
+    private static Scanner in;
     
-    private Gson gson;
+    private static Gson gson;
     
     public HeosSystem(String ipAddress){
         if(ipAddress == null){
@@ -84,7 +83,7 @@ public class HeosSystem {
             // break
         }
         
-        out.println(Commands.ACCOUNT_CHECK);
+        out.println(SystemCommands.ACCOUNT_CHECK);
         
         Response response = gson.fromJson(in.next(), Response.class);
         
@@ -99,7 +98,7 @@ public class HeosSystem {
     }
     
     public Account accountSignIn(String username, String password){
-        out.println(Commands.ACCOUNT_SIGN_IN(username, password));
+        out.println(SystemCommands.ACCOUNT_SIGN_IN(username, password));
         
         Response response = gson.fromJson(in.next(), Response.class);
         
@@ -111,14 +110,14 @@ public class HeosSystem {
     }
     
     public boolean accountSignOut(){
-        out.println(Commands.ACCOUNT_SIGN_OUT);
+        out.println(SystemCommands.ACCOUNT_SIGN_OUT);
         Response response = gson.fromJson(in.next(), Response.class);
         
         return response.getResult().equals(Results.SUCCESS) && response.getMessage().equals("signed_out");
     }
     
     public boolean systemHeartBeat(){
-        out.println(Commands.HEARTBEAT);
+        out.println(SystemCommands.HEARTBEAT);
         
         Response response = gson.fromJson(in.next(), Response.class);
         
@@ -127,7 +126,7 @@ public class HeosSystem {
     
     public List<Player> getPlayers(){
         
-        out.println(Commands.GET_PLAYERS);
+        out.println(SystemCommands.GET_PLAYERS);
         
         Response response = gson.fromJson(in.next(), Response.class);
         
@@ -142,5 +141,12 @@ public class HeosSystem {
         }
         
         return null;
+    }
+    
+    public static Response communicate(String command) {
+        // Check for null socket etc
+        
+        out.println(command);
+        return gson.fromJson(in.next(), Response.class);
     }
 }

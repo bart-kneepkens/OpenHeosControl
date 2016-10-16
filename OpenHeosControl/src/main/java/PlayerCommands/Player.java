@@ -16,6 +16,9 @@
  */
 package PlayerCommands;
 
+import SystemCommands.HeosSystem;
+import com.bartkneepkens.openheoscontrol.Response;
+import com.bartkneepkens.openheoscontrol.constants.Results;
 import java.util.Map;
 
 /**
@@ -24,19 +27,34 @@ import java.util.Map;
  */
 public class Player {
     private String name;
-    private Double pid;
+    private String pid;
     private String model;
     private String version;
     private Double gid;
     
     public Player(Map<String, Object> map){
         this.name = (String) map.get("name");
-        this.pid = (Double) map.get("pid");
+        
+        // For some reason pid gets cast to a double by default, leaving a dot (.) in it.
+        // For operations, it should just be a String
+        this.pid = String.valueOf((Double) map.get("pid")).replace(".", "");
         this.model = (String) map.get("model");
         this.version = (String) map.get("version");
         
         if(map.containsKey("gid")){
             this.gid = (Double) map.get("gid");
         }
+    }
+    
+    public String getPlayState(){
+        Response response = HeosSystem.communicate(PlayerCommands.GET_PLAY_STATE(this.pid));
+        
+        if(response.getResult().equals(Results.SUCCESS)){
+            if(response.getMessage().contains("state=")){
+                String state = response.getMessage().substring(response.getMessage().indexOf("state=") + 6);
+                return state;
+            }
+        }
+        return null;
     }
 }
