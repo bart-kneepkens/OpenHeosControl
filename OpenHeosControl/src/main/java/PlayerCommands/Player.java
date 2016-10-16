@@ -83,4 +83,17 @@ public class Player {
         }
         return -1;
     }
+    
+    public int setVolume(int newVolume){
+        Response response = TelnetConnection.write(PlayerCommands.SET_VOLUME(this.pid, newVolume));
+        
+        if(response.getResult().equals(Results.SUCCESS)){
+            if(response.getMessage().contains("level=")){
+                String currentVolumeString = response.getMessage().substring(response.getMessage().indexOf("level=") + 6);
+                int currentVolume = Integer.parseInt(currentVolumeString);
+                return currentVolume;
+            }
+        }
+        return -1;
+    }
 }

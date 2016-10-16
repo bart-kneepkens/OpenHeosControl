@@ -44,6 +44,8 @@ public class Main {
         System.out.println(p.getPlayState());
        
         System.out.println(p.getVolume());
+        
+        System.out.println(p.setVolume(13));
     }
     
 }
