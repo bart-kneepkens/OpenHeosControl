@@ -39,15 +39,11 @@ public class Main {
         
         System.out.println(p.getPlayState());
         
-        System.out.println(p.setPlayState(PlayStates.PAUSE));
+        System.out.println(p.setPlayState(PlayStates.PLAY));
         
         System.out.println(p.getPlayState());
-        
-//        Thread.sleep(5000);
-//        
-//        System.out.println(p.setPlayState(PlayStates.PAUSE));
-//        
-//        System.out.println(p.getPlayState());
+       
+        System.out.println(p.getVolume());
     }
     
 }

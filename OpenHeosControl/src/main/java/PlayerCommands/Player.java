@@ -70,4 +70,17 @@ public class Player {
         }
         return null;
     }
+    
+    public int getVolume(){
+        Response response = TelnetConnection.write(PlayerCommands.GET_VOLUME(this.pid));
+        
+        if(response.getResult().equals(Results.SUCCESS)){
+            if(response.getMessage().contains("level=")){
+                String currentVolumeString = response.getMessage().substring(response.getMessage().indexOf("level=") + 6);
+                int currentVolume = Integer.parseInt(currentVolumeString);
+                return currentVolume;
+            }
+        }
+        return -1;
+    }
 }

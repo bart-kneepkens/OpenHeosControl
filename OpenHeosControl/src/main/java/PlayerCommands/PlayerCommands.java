@@ -28,4 +28,8 @@ public class PlayerCommands {
     public static final String SET_PLAY_STATE(String pid, String state){
         return "heos://player/set_play_state?pid=" + pid + "&state=" + state;
     }
+    
+    public static final String GET_VOLUME(String pid){
+        return "heos://player/get_volume?pid=" + pid;
+    }
 }
