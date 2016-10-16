@@ -18,7 +18,7 @@ package SystemCommands;
 
 import Connection.TelnetConnection;
 import PlayerCommands.Player;
-import com.bartkneepkens.openheoscontrol.Response;
+import Connection.Response;
 import com.bartkneepkens.openheoscontrol.constants.Results;
 import java.io.IOException;
 import java.io.PrintWriter;
