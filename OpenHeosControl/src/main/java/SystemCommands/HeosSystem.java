@@ -1,8 +1,19 @@
 /*
-* To change this license header, choose License Headers in Project Properties.
-* To change this template file, choose Tools | Templates
-* and open the template in the editor.
-*/
+ * Copyright (C) 2016 bart-kneepkens
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package SystemCommands;
 
 import com.bartkneepkens.openheoscontrol.Response;
@@ -57,21 +68,19 @@ public class HeosSystem {
          * Check whether or not the connection is alright, as well as the system, with heartbeat.
          */
     
-        out.println(Commands.HEARTBEAT);
-        
-        Response response = gson.fromJson(in.next(), Response.class);
-        
-        if(response.getResult().equals(Results.FAIL)){
-            // Do something
+        if(!this.systemHeartBeat()){
+           // Deal with it. 
         }
     }
     
+    /* System Commands (Protocol -> 4.1) */
+   
     public Account accountCheck(){
         if(socket == null || out == null || in == null){
             // break
         }
         
-        out.println(Commands.CHECK_ACCOUNT);
+        out.println(Commands.ACCOUNT_CHECK);
         
         Response response = gson.fromJson(in.next(), Response.class);
         
@@ -95,5 +104,20 @@ public class HeosSystem {
         }
         
         return null;
+    }
+    
+    public boolean accountSignOut(){
+        out.println(Commands.ACCOUNT_SIGN_OUT);
+        Response response = gson.fromJson(in.next(), Response.class);
+        
+        return response.getResult().equals(Results.SUCCESS) && response.getMessage().equals("signed_out");
+    }
+    
+    public boolean systemHeartBeat(){
+        out.write(Commands.HEARTBEAT);
+        
+        Response response = gson.fromJson(in.next(), Response.class);
+        
+        return response.getResult().equals(Results.SUCCESS);
     }
 }
