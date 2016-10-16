@@ -16,6 +16,7 @@
  */
 package SystemCommands;
 
+import Connection.TelnetConnection;
 import PlayerCommands.Player;
 import com.bartkneepkens.openheoscontrol.Response;
 import com.bartkneepkens.openheoscontrol.constants.Results;
@@ -39,11 +40,11 @@ public class HeosSystem {
     private String ipAddress;
     
     /* Networking */
-    private static Socket socket;
-    private static PrintWriter out;
-    private static Scanner in;
-    
-    private static Gson gson;
+//    private static Socket socket;
+//    private static PrintWriter out;
+//    private static Scanner in;
+//    
+//    private static Gson gson;
     
     public HeosSystem(String ipAddress){
         if(ipAddress == null){
@@ -52,40 +53,35 @@ public class HeosSystem {
         }
         
         this.ipAddress = ipAddress;
+        TelnetConnection.connect(ipAddress);
     }
     
-    public void connect(){
-        // Set up the socket, in and out
-        try {
-            socket = new Socket(this.ipAddress, 1255);
-            out = new PrintWriter(socket.getOutputStream(), true);
-            in = new Scanner(socket.getInputStream());
-            in.useDelimiter("\r\n");
-            gson = new GsonBuilder().create();
-            
-        } catch (IOException ex) {
-            Logger.getLogger(HeosSystem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        /**
-         * Check whether or not the connection is alright, as well as the system, with heartbeat.
-         */
-    
-        if(!this.systemHeartBeat()){
-           // Deal with it. 
-        }
-    }
+//    public void connect(){
+//        // Set up the socket, in and out
+//        try {
+//            socket = new Socket(this.ipAddress, 1255);
+//            out = new PrintWriter(socket.getOutputStream(), true);
+//            in = new Scanner(socket.getInputStream());
+//            in.useDelimiter("\r\n");
+//            gson = new GsonBuilder().create();
+//            
+//        } catch (IOException ex) {
+//            Logger.getLogger(HeosSystem.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        
+//        /**
+//         * Check whether or not the connection is alright, as well as the system, with heartbeat.
+//         */
+//    
+//        if(!this.systemHeartBeat()){
+//           // Deal with it. 
+//        }
+//    }
     
     /* System Commands (Protocol -> 4.1) */
    
     public Account accountCheck(){
-        if(socket == null || out == null || in == null){
-            // break
-        }
-        
-        out.println(SystemCommands.ACCOUNT_CHECK);
-        
-        Response response = gson.fromJson(in.next(), Response.class);
+        Response response = TelnetConnection.write(SystemCommands.ACCOUNT_CHECK);
         
         if(response.getResult().equals(Results.SUCCESS)){
             if(response.getMessage().contains("signed_in")){
@@ -98,9 +94,7 @@ public class HeosSystem {
     }
     
     public Account accountSignIn(String username, String password){
-        out.println(SystemCommands.ACCOUNT_SIGN_IN(username, password));
-        
-        Response response = gson.fromJson(in.next(), Response.class);
+        Response response = TelnetConnection.write(SystemCommands.ACCOUNT_SIGN_IN(username, password));
         
         if(response.getResult().equals(Results.SUCCESS) && !response.getMessage().contains("command under process")){
             return new Account(username, password);
@@ -110,25 +104,18 @@ public class HeosSystem {
     }
     
     public boolean accountSignOut(){
-        out.println(SystemCommands.ACCOUNT_SIGN_OUT);
-        Response response = gson.fromJson(in.next(), Response.class);
-        
+        Response response = TelnetConnection.write(SystemCommands.ACCOUNT_SIGN_OUT);
         return response.getResult().equals(Results.SUCCESS) && response.getMessage().equals("signed_out");
     }
     
     public boolean systemHeartBeat(){
-        out.println(SystemCommands.HEARTBEAT);
-        
-        Response response = gson.fromJson(in.next(), Response.class);
+        Response response = TelnetConnection.write(SystemCommands.HEARTBEAT);
         
         return response.getResult().equals(Results.SUCCESS);
     }
     
     public List<Player> getPlayers(){
-        
-        out.println(SystemCommands.GET_PLAYERS);
-        
-        Response response = gson.fromJson(in.next(), Response.class);
+        Response response = TelnetConnection.write(SystemCommands.GET_PLAYERS);
         
         if(response.getResult().equals(Results.SUCCESS)){
             List<Player> toBeReturned = new ArrayList<>();
@@ -143,10 +130,4 @@ public class HeosSystem {
         return null;
     }
     
-    public static Response communicate(String command) {
-        // Check for null socket etc
-        
-        out.println(command);
-        return gson.fromJson(in.next(), Response.class);
-    }
 }

@@ -16,6 +16,7 @@
  */
 package PlayerCommands;
 
+import Connection.TelnetConnection;
 import SystemCommands.HeosSystem;
 import com.bartkneepkens.openheoscontrol.Response;
 import com.bartkneepkens.openheoscontrol.constants.Results;
@@ -47,7 +48,7 @@ public class Player {
     }
     
     public String getPlayState(){
-        Response response = HeosSystem.communicate(PlayerCommands.GET_PLAY_STATE(this.pid));
+        Response response = TelnetConnection.write(PlayerCommands.GET_PLAY_STATE(this.pid));
         
         if(response.getResult().equals(Results.SUCCESS)){
             if(response.getMessage().contains("state=")){
