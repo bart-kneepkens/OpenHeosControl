@@ -18,6 +18,7 @@ package com.bartkneepkens.openheoscontrol;
 
 import PlayerCommands.Player;
 import SystemCommands.HeosSystem;
+import com.bartkneepkens.openheoscontrol.constants.PlayStates;
 
 /**
  *
@@ -28,7 +29,7 @@ public class Main {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         System.out.println("STARTING");
         HeosSystem sys = new HeosSystem("192.168.2.3");
         
@@ -37,6 +38,16 @@ public class Main {
         Player p = sys.getPlayers().get(0);
         
         System.out.println(p.getPlayState());
+        
+        System.out.println(p.setPlayState(PlayStates.PAUSE));
+        
+        System.out.println(p.getPlayState());
+        
+//        Thread.sleep(5000);
+//        
+//        System.out.println(p.setPlayState(PlayStates.PAUSE));
+//        
+//        System.out.println(p.getPlayState());
     }
     
 }

@@ -24,4 +24,8 @@ public class PlayerCommands {
     public static final String GET_PLAY_STATE(String pid){
         return "heos://player/get_play_state?pid=" + pid;
     }
+    
+    public static final String SET_PLAY_STATE(String pid, String state){
+        return "heos://player/set_play_state?pid=" + pid + "&state=" + state;
+    }
 }

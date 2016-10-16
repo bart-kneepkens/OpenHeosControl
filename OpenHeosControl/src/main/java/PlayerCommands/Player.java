@@ -58,4 +58,16 @@ public class Player {
         }
         return null;
     }
+    
+    public String setPlayState(String state){
+        Response response = TelnetConnection.write(PlayerCommands.SET_PLAY_STATE(this.pid, state));
+        
+        if(response.getResult().equals(Results.SUCCESS)){
+            if(response.getMessage().contains("state=")){
+                String currentState = response.getMessage().substring(response.getMessage().indexOf("state=") + 6);
+                return currentState;
+            }
+        }
+        return null;
+    }
 }
