@@ -47,6 +47,10 @@ public class Player {
         }
     }
     
+    public String getName(){
+        return name;
+    }
+    
     public String getPlayState(){
         Response response = TelnetConnection.write(PlayerCommands.GET_PLAY_STATE(this.pid));
         
