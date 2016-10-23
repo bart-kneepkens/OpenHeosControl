@@ -41,7 +41,7 @@ public class UpnpClient {
                 + "\r\n";
     }
     
-    public void findStuff() throws UnknownHostException, IOException{
+    public String findStuff() throws UnknownHostException, IOException{
         
         InetAddress multicastAddress = InetAddress.getByName(this.SSDP_HOST);
         
@@ -75,9 +75,11 @@ public class UpnpClient {
                   if(xx.contains(SSDP_ST)){
                         System.out.println("WINRAR :" + address);
                         System.out.println(xx);
-                        ipFound = true;
+                        return address;
                     }
                 }                
         }
+        
+        return null;
     }
 }

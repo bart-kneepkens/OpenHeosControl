@@ -36,13 +36,6 @@ public class Main extends javax.swing.JFrame {
      */
     public Main() {
         initComponents();
-        
-        UpnpClient cl = new UpnpClient();
-        try {
-            cl.findStuff();
-        } catch (IOException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     /**
@@ -61,6 +54,7 @@ public class Main extends javax.swing.JFrame {
         playButton = new javax.swing.JButton();
         ipTextField = new javax.swing.JTextField();
         connectButton = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("OpenHeosController");
@@ -107,12 +101,19 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        ipTextField.setText("192.168.2.3");
+        ipTextField.setText("Please Wait..");
 
         connectButton.setText("Connect");
         connectButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 connectButtonActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Find HEOS");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -135,11 +136,13 @@ public class Main extends javax.swing.JFrame {
                                         .addGap(146, 146, 146)
                                         .addComponent(playButton))
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(136, 136, 136)
+                                        .addContainerGap()
+                                        .addComponent(jButton1)
+                                        .addGap(33, 33, 33)
                                         .addComponent(connectButton)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 56, Short.MAX_VALUE))
+                        .addGap(0, 44, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -159,7 +162,9 @@ public class Main extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(connectButton)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(connectButton)
+                            .addComponent(jButton1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(playButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
@@ -204,6 +209,15 @@ public class Main extends javax.swing.JFrame {
         System.out.println("New volume: " + volumeSlider.getValue());
     }//GEN-LAST:event_volumeSliderMouseReleased
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        UpnpClient cl = new UpnpClient();
+        try {
+            this.ipTextField.setText(cl.findStuff());
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -219,6 +233,7 @@ public class Main extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton connectButton;
     private javax.swing.JTextField ipTextField;
+    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JButton pauseButton;
     private javax.swing.JButton playButton;
