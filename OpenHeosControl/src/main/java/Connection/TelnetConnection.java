@@ -56,10 +56,20 @@ public class TelnetConnection {
         return true;
     }
     
-    public static Response write(String command){
+    public static Response write(final String command){
         // Check for null socket etc
-        out.println(command);
-        out.flush();
+        Runnable r = new Runnable(){
+
+            @Override
+            public void run() {
+                out.println(command);
+                out.flush();
+            }
+        };
+             
+        Thread t = new Thread(r);
+        t.start();
+        
         return gson.fromJson(in.next(), Response.class);
     }
 }
