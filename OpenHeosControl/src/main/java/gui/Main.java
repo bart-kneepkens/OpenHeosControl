@@ -18,6 +18,10 @@ package Gui;
 
 import SystemCommands.HeosSystem;
 import Constants.PlayStates;
+import Network.UpnpClient;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -32,6 +36,13 @@ public class Main extends javax.swing.JFrame {
      */
     public Main() {
         initComponents();
+        
+        UpnpClient cl = new UpnpClient();
+        try {
+            cl.findStuff();
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
