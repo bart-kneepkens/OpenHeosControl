@@ -14,10 +14,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package gui;
+package Gui;
 
 import SystemCommands.HeosSystem;
-import com.bartkneepkens.openheoscontrol.constants.PlayStates;
+import Constants.PlayStates;
 
 /**
  *

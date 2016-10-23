@@ -19,7 +19,7 @@ package SystemCommands;
 import Connection.TelnetConnection;
 import PlayerCommands.Player;
 import Connection.Response;
-import com.bartkneepkens.openheoscontrol.constants.Results;
+import Constants.Results;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;

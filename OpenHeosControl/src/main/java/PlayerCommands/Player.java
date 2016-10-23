@@ -19,7 +19,7 @@ package PlayerCommands;
 import Connection.TelnetConnection;
 import SystemCommands.HeosSystem;
 import Connection.Response;
-import com.bartkneepkens.openheoscontrol.constants.Results;
+import Constants.Results;
 import java.util.Map;
 
 /**
