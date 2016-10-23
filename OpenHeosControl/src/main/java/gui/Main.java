@@ -18,7 +18,7 @@ package Gui;
 
 import SystemCommands.HeosSystem;
 import Constants.PlayStates;
-import Network.UpnpClient;
+import Network.SsdpClient;
 import PlayerCommands.Player;
 import java.awt.event.ItemEvent;
 import java.io.IOException;
@@ -233,7 +233,7 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_volumeSliderMouseReleased
 
     private void findButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_findButtonActionPerformed
-        UpnpClient cl = new UpnpClient();
+        SsdpClient cl = new SsdpClient();
         try {
             this.ipTextField.setText(cl.findStuff());
             

@@ -26,7 +26,7 @@ import java.net.UnknownHostException;
  *
  * @author bart-kneepkens
  */
-public class UpnpClient {
+public class SsdpClient {
     private final String SSDP_HOST = "239.255.255.250";
     private final int SSDP_PORT = 1900;
     private final int SSDP_MX = 1;
