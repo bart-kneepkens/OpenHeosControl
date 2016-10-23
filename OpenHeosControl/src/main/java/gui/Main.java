@@ -51,21 +51,22 @@ public class Main extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jComboBox1 = new javax.swing.JComboBox();
+        playersComboBox = new javax.swing.JComboBox();
         volumeSlider = new javax.swing.JSlider();
         stopButton = new javax.swing.JButton();
         pauseButton = new javax.swing.JButton();
         playButton = new javax.swing.JButton();
         ipTextField = new javax.swing.JTextField();
         connectButton = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        findButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("OpenHeosController");
 
-        jComboBox1.addItemListener(new java.awt.event.ItemListener() {
+        playersComboBox.setEnabled(false);
+        playersComboBox.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jComboBox1ItemStateChanged(evt);
+                playersComboBoxItemStateChanged(evt);
             }
         });
 
@@ -75,14 +76,14 @@ public class Main extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(playersComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(38, Short.MAX_VALUE)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(playersComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(35, 35, 35))
         );
 
@@ -90,6 +91,7 @@ public class Main extends javax.swing.JFrame {
         volumeSlider.setPaintTicks(true);
         volumeSlider.setSnapToTicks(true);
         volumeSlider.setValue(0);
+        volumeSlider.setEnabled(false);
         volumeSlider.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 volumeSliderMouseReleased(evt);
@@ -97,6 +99,7 @@ public class Main extends javax.swing.JFrame {
         });
 
         stopButton.setText("Stop");
+        stopButton.setEnabled(false);
         stopButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 stopButtonActionPerformed(evt);
@@ -104,6 +107,7 @@ public class Main extends javax.swing.JFrame {
         });
 
         pauseButton.setText("Pause");
+        pauseButton.setEnabled(false);
         pauseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pauseButtonActionPerformed(evt);
@@ -111,6 +115,7 @@ public class Main extends javax.swing.JFrame {
         });
 
         playButton.setText("Play");
+        playButton.setEnabled(false);
         playButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 playButtonActionPerformed(evt);
@@ -120,16 +125,17 @@ public class Main extends javax.swing.JFrame {
         ipTextField.setText("Please Wait..");
 
         connectButton.setText("Connect");
+        connectButton.setEnabled(false);
         connectButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 connectButtonActionPerformed(evt);
             }
         });
 
-        jButton1.setText("Find HEOS");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        findButton.setText("Find HEOS");
+        findButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                findButtonActionPerformed(evt);
             }
         });
 
@@ -149,7 +155,7 @@ public class Main extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(stopButton))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton1)
+                                .addComponent(findButton)
                                 .addGap(33, 33, 33)
                                 .addComponent(connectButton)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -172,7 +178,7 @@ public class Main extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(connectButton)
-                            .addComponent(jButton1))))
+                            .addComponent(findButton))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(stopButton)
@@ -195,9 +201,15 @@ public class Main extends javax.swing.JFrame {
             volumeSlider.setValue(sys.getPlayers().get(0).getVolume());
             
             for (Player p : sys.getPlayers()) {
-                this.jComboBox1.addItem(p.getName());
+                this.playersComboBox.addItem(p.getName());
             }
         }
+        
+        this.playersComboBox.setEnabled(true);
+        this.playButton.setEnabled(true);
+        this.stopButton.setEnabled(true);
+        this.pauseButton.setEnabled(true);
+        this.volumeSlider.setEnabled(true);
     }//GEN-LAST:event_connectButtonActionPerformed
 
     private void playButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playButtonActionPerformed
@@ -220,22 +232,25 @@ public class Main extends javax.swing.JFrame {
         System.out.println("New volume: " + volumeSlider.getValue());
     }//GEN-LAST:event_volumeSliderMouseReleased
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void findButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_findButtonActionPerformed
         UpnpClient cl = new UpnpClient();
         try {
             this.ipTextField.setText(cl.findStuff());
+            
+            this.connectButton.setEnabled(true);
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_findButtonActionPerformed
 
-    private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
+    private void playersComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_playersComboBoxItemStateChanged
        if(evt.getStateChange() == ItemEvent.SELECTED){
-           int index = this.jComboBox1.getSelectedIndex();
+           int index = this.playersComboBox.getSelectedIndex();
            this.playerIndex = index;
            System.out.println("Player changed. to: " + index );
+           volumeSlider.setValue(sys.getPlayers().get(index).getVolume());
        }
-    }//GEN-LAST:event_jComboBox1ItemStateChanged
+    }//GEN-LAST:event_playersComboBoxItemStateChanged
 
     /**
      * @param args the command line arguments
@@ -251,12 +266,12 @@ public class Main extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton connectButton;
+    private javax.swing.JButton findButton;
     private javax.swing.JTextField ipTextField;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JButton pauseButton;
     private javax.swing.JButton playButton;
+    private javax.swing.JComboBox playersComboBox;
     private javax.swing.JButton stopButton;
     private javax.swing.JSlider volumeSlider;
     // End of variables declaration//GEN-END:variables
