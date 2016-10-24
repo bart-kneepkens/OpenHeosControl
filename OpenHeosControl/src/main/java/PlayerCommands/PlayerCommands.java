@@ -17,7 +17,7 @@
 package PlayerCommands;
 
 /**
- *
+ * Commands that can be sent to a HEOS player.
  * @author bart-kneepkens
  */
 public class PlayerCommands {

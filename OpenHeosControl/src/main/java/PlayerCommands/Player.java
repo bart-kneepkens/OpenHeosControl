@@ -22,7 +22,7 @@ import Constants.Results;
 import java.util.Map;
 
 /**
- *  Player class represents a physical HEOS player.
+ * Player class represents a physical HEOS player.
  * @author bart-kneepkens
  */
 public class Player {

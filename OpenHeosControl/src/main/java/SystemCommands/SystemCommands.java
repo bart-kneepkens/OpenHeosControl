@@ -17,16 +17,16 @@
 package SystemCommands;
 
 /**
- *
+ * Commands that can be sent to a HEOS System.
  * @author bart-kneepkens
  */
 public class SystemCommands {
-    public static String HEARTBEAT = "heos://system/heart_beat";
-    public static String GET_PLAYERS = "heos://player/get_players";
+    public static final String HEARTBEAT = "heos://system/heart_beat";
+    public static final String GET_PLAYERS = "heos://player/get_players";
+    public static final String ACCOUNT_CHECK = "heos://system/check_account";
+    public static final String ACCOUNT_SIGN_OUT = "heos://system/sign_out";    
     
-    public static String ACCOUNT_CHECK = "heos://system/check_account";
-    public static String ACCOUNT_SIGN_IN(String username, String password){
+    public static final String ACCOUNT_SIGN_IN(String username, String password){
         return "heos://system/sign_in?un=" + username + "&pw=" + password;
     } 
-    public static String ACCOUNT_SIGN_OUT = "heos://system/sign_out";    
 }
