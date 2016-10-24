@@ -37,7 +37,7 @@ public class HeosSystem {
             // Also check with regex for the ip address signature.
             // Exception, BOOM.
         }
-        
+              
         TelnetConnection.connect(ipAddress);
     }
    

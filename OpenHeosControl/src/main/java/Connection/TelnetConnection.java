@@ -39,24 +39,32 @@ public class TelnetConnection {
 
     private static Gson gson;
 
-    public static boolean connect(final String ipAddress) {
-        // Set up the socket, in and out
-        try {
-            socket = new Socket(ipAddress, 1255);
-            out = new PrintWriter(socket.getOutputStream(), true);
-            in = new Scanner(socket.getInputStream());
-            in.useDelimiter("\r\n");
-            gson = new GsonBuilder().create();
+    public static void connect(final String ipAddress) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    socket = new Socket(ipAddress, 1255);
+                    out = new PrintWriter(socket.getOutputStream(), true);
+                    in = new Scanner(socket.getInputStream());
+                    in.useDelimiter("\r\n");
+                    gson = new GsonBuilder().create();
 
-        } catch (IOException ex) {
-            Logger.getLogger(HeosSystem.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
-        }
+                } catch (IOException ex) {
+                    Logger.getLogger(HeosSystem.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
 
-        return true;
+        }).start();
+        
     }
 
     public static Response write(final String command) {
+        
+        if(socket == null || out == null || in == null || gson == null){
+            return null;
+        }
+        
         new Thread(new Runnable(){
             @Override
             public void run() {
