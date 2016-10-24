@@ -41,45 +41,43 @@ public class SsdpClient {
                 + "\r\n";
     }
     
-    public String findStuff() throws UnknownHostException, IOException{
+    public String findHeosIp() throws UnknownHostException, IOException{
         
         InetAddress multicastAddress = InetAddress.getByName(this.SSDP_HOST);
-        
-        System.out.println(InetAddress.getLocalHost().getHostAddress());
+       
         MulticastSocket socket = new MulticastSocket(SSDP_PORT);
         socket.setReuseAddress(true);
         socket.setSoTimeout(10000);
         socket.joinGroup(multicastAddress);
         
         
-        // send discover
-        byte[] txbuf = SSDP_REQUEST().getBytes("UTF-8");
-        DatagramPacket hi = new DatagramPacket(txbuf, txbuf.length, multicastAddress, SSDP_PORT);
-        socket.send(hi);
-//        System.out.println("SSDP discover sent:");
-//        System.out.println(SSDP_REQUEST());
+        byte[] packetBuffer = SSDP_REQUEST().getBytes("UTF-8");
+        DatagramPacket mSearchPacket = new DatagramPacket(packetBuffer, packetBuffer.length, multicastAddress, SSDP_PORT);
+        socket.send(mSearchPacket);
         
-        boolean ipFound = false;
-        while(!ipFound){
-            byte[] rxbuf = new byte[8192];
-                DatagramPacket packet = new DatagramPacket(rxbuf, rxbuf.length);
+        /**
+         * Should run until either:
+         * - A compatible device is found
+         * - The socket times out
+         */
+        while(true){
+            
+            byte[] responseBuffer = new byte[8192];
+                DatagramPacket packet = new DatagramPacket(responseBuffer, responseBuffer.length);
                 socket.receive(packet);
+
+                String packetAddress = packet.getAddress().getHostAddress();
                 
-                // Handle packet
-                String address = packet.getAddress().getHostAddress();
+                String fullResponse = new String(responseBuffer, 0, packet.getLength());
                 
-                String xx = new String(rxbuf, 0, packet.getLength());
-                
-                
-                if(!address.equals(InetAddress.getLocalHost().getHostAddress())){
-                  if(xx.contains(SSDP_ST)){
-                        System.out.println("WINRAR :" + address);
-                        System.out.println(xx);
-                        return address;
+                /**
+                 * Make sure the response is not from localhost and the USN contains the HEOS urn.
+                 */
+                if(!packetAddress.equals(InetAddress.getLocalHost().getHostAddress())){
+                  if(fullResponse.contains(SSDP_ST)){
+                        return packetAddress;
                     }
                 }                
         }
-        
-        return null;
     }
 }

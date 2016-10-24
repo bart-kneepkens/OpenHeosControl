@@ -235,11 +235,12 @@ public class Main extends javax.swing.JFrame {
     private void findButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_findButtonActionPerformed
         SsdpClient cl = new SsdpClient();
         try {
-            this.ipTextField.setText(cl.findStuff());
+            this.ipTextField.setText(cl.findHeosIp());
             
             this.connectButton.setEnabled(true);
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            // Some network error.
         }
     }//GEN-LAST:event_findButtonActionPerformed
 

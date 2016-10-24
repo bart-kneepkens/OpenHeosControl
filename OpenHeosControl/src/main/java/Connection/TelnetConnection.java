@@ -57,7 +57,6 @@ public class TelnetConnection {
     }
     
     public static Response write(final String command){
-        // Check for null socket etc
         Runnable r = new Runnable(){
 
             @Override

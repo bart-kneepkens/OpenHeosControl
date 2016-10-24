@@ -17,31 +17,34 @@
 package PlayerCommands;
 
 import Connection.TelnetConnection;
-import SystemCommands.HeosSystem;
 import Connection.Response;
 import Constants.Results;
 import java.util.Map;
 
 /**
- *
+ *  Player class represents a physical HEOS player.
  * @author bart-kneepkens
  */
 public class Player {
-    private String name;
-    private String pid;
-    private String model;
-    private String version;
+    private final String name;
+    private final String pid;
+    private final String model;
+    private final String version;
     private Double gid;
     
+    /**
+     * Constructor to be called from the 'getPlayers' response. (See HeosSystem -> getPlayers)
+     * @param map 
+     */
     public Player(Map<String, Object> map){
         this.name = (String) map.get("name");
-        
         // For some reason pid gets cast to a double by default, leaving a dot (.) in it.
         // For operations, it should just be a String
         this.pid = String.valueOf((Double) map.get("pid")).replace(".", "");
         this.model = (String) map.get("model");
         this.version = (String) map.get("version");
         
+        // Gid is not always contained.
         if(map.containsKey("gid")){
             this.gid = (Double) map.get("gid");
         }
@@ -50,7 +53,27 @@ public class Player {
     public String getName(){
         return name;
     }
+
+    public String getPid() {
+        return pid;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public Double getGid() {
+        return gid;
+    }
     
+    /**
+     * Get this player's current state.
+     * @return a String that is either "start", "stop", or "pause".
+     */
     public String getPlayState(){
         Response response = TelnetConnection.write(PlayerCommands.GET_PLAY_STATE(this.pid));
         
@@ -63,6 +86,11 @@ public class Player {
         return null;
     }
     
+    /**
+     * Will set this player's state to the parameter.
+     * @param state - a String that is either "start", "stop", or "pause".
+     * @return the newly set state, a String that is either "start", "stop", or "pause".
+     */
     public String setPlayState(String state){
         Response response = TelnetConnection.write(PlayerCommands.SET_PLAY_STATE(this.pid, state));
         
@@ -76,7 +104,7 @@ public class Player {
     }
     
     /**
-     * 
+     * Gets this player's volume.
      * @return the volume (0-100). -1 if operation failed.
      */
     public int getVolume(){
@@ -93,8 +121,8 @@ public class Player {
     }
     
     /**
-     * 
-     * @param newVolume (between 0-100)
+     * Sets this player's volume.
+     * @param newVolume (between 0-100).
      * @return The volume after setting it. -1 if operation failed.
      */
     public int setVolume(int newVolume){
@@ -111,9 +139,9 @@ public class Player {
     }
     
     /**
-     * 
+     * Ticks the volume up by a certain step.
      * @param step (between 1-10)
-     * @return 
+     * @return boolean indicating a succesful operation.
      */
     public boolean volumeUp(int step){
         Response response = TelnetConnection.write(PlayerCommands.VOLUME_UP(this.pid, step));
@@ -121,6 +149,11 @@ public class Player {
         return response.getResult().equals(Results.SUCCESS);            
     }
     
+    /**
+     * Ticks the volume down by a certain step.
+     * @param step (between 1-10)
+     * @return boolean indicating a succesful operation.
+     */
     public boolean volumeDown(int step){
         Response response = TelnetConnection.write(PlayerCommands.VOLUME_DOWN(this.pid, step));
         
