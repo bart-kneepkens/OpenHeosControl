@@ -14,13 +14,19 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package Network;
+package Ssdp;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
 import java.net.UnknownHostException;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -79,5 +85,12 @@ public class SsdpClient {
                     }
                 }                
         }
+    }
+    
+    public String getHeosIp() throws InterruptedException, ExecutionException{
+        ExecutorService service = Executors.newSingleThreadExecutor();
+        Future<String> result = service.submit(new SsdpCallable());
+        
+        return result.get();
     }
 }

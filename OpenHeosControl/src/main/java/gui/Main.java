@@ -18,12 +18,13 @@ package Gui;
 
 import SystemCommands.HeosSystem;
 import Constants.PlayStates;
-import Network.SsdpClient;
+import Ssdp.SsdpClient;
 import PlayerCommands.Player;
 import java.awt.event.ItemEvent;
-import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -194,6 +195,7 @@ public class Main extends javax.swing.JFrame {
 
     private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectButtonActionPerformed
         String ip = this.ipTextField.getText();
+        
         sys = new HeosSystem(ip);
         
         if(sys.systemHeartBeat()){
@@ -233,15 +235,20 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_volumeSliderMouseReleased
 
     private void findButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_findButtonActionPerformed
-        SsdpClient cl = new SsdpClient();
-        try {
-            this.ipTextField.setText(cl.findHeosIp());
-            
-            this.connectButton.setEnabled(true);
-        } catch (IOException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-            // Some network error.
-        }
+        final SsdpClient cl = new SsdpClient();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    ipTextField.setText(cl.getHeosIp());
+                    connectButton.setEnabled(true);
+                } catch (InterruptedException | ExecutionException ex) {
+                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(null, "Trouble connecting to HEOS. Make sure you are in the same network.");
+                }
+            }
+        }).start();
     }//GEN-LAST:event_findButtonActionPerformed
 
     private void playersComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_playersComboBoxItemStateChanged

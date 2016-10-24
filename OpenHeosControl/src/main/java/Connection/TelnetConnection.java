@@ -31,44 +31,40 @@ import java.util.logging.Logger;
  * @author bart-kneepkens
  */
 public class TelnetConnection {
-    
+
     /* Networking */
     private static Socket socket;
     private static PrintWriter out;
     private static Scanner in;
-    
+
     private static Gson gson;
-    
-    public static boolean connect(String ipAddress){
-         // Set up the socket, in and out
+
+    public static boolean connect(final String ipAddress) {
+        // Set up the socket, in and out
         try {
             socket = new Socket(ipAddress, 1255);
             out = new PrintWriter(socket.getOutputStream(), true);
             in = new Scanner(socket.getInputStream());
             in.useDelimiter("\r\n");
             gson = new GsonBuilder().create();
-            
+
         } catch (IOException ex) {
             Logger.getLogger(HeosSystem.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
-        
+
         return true;
     }
-    
-    public static Response write(final String command){
-        Runnable r = new Runnable(){
 
+    public static Response write(final String command) {
+        new Thread(new Runnable(){
             @Override
             public void run() {
                 out.println(command);
                 out.flush();
             }
-        };
-             
-        Thread t = new Thread(r);
-        t.start();
-        
+        }).start();
+
         return gson.fromJson(in.next(), Response.class);
     }
 }
