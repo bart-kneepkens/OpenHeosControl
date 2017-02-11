@@ -39,6 +39,7 @@ public class HeosSystem {
         }
               
         TelnetConnection.connect(ipAddress);
+        TelnetConnection.write(SystemCommands.REGISTER_FOR_CHANGE_EVENTS(true));
     }
    
     /**
@@ -75,7 +76,7 @@ public class HeosSystem {
     
     /**
      * Sign out of the HEOS system.
-     * @return boolean indicating a succesful operation.
+     * @return boolean indicating a successful operation.
      */
     public boolean accountSignOut(){
         Response response = TelnetConnection.write(SystemCommands.ACCOUNT_SIGN_OUT);

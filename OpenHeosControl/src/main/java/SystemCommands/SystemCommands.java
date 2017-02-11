@@ -29,4 +29,11 @@ public class SystemCommands {
     public static final String ACCOUNT_SIGN_IN(String username, String password){
         return "heos://system/sign_in?un=" + username + "&pw=" + password;
     } 
+    
+    public static final String REGISTER_FOR_CHANGE_EVENTS(boolean enabled){
+        if(enabled){
+            return  "heos://system/register_for_change_events?enable=on";
+        }
+        return  "heos://system/register_for_change_events?enable=off";
+    }
 }

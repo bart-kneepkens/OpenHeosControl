@@ -19,7 +19,7 @@ package Connection;
 import java.util.Map;
 
 /**
- *  This class is used for holding the response data that is returnet when executing a command. 
+ *  This class is used for holding the response data that is returned when executing a command. 
  *  This class has get-only access because it is given its values by Gson.
  * @author bart-kneepkens
  */
