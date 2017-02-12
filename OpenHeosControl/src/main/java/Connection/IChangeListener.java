@@ -25,4 +25,5 @@ import Constants.PlayStates;
 public interface IChangeListener {
     void playerStateChanged(int playerId, PlayStates state);
     void playerVolumeChanged(int playerId, int level);
+    void playerNowPlayingChanged(String nowPlaying);
 }

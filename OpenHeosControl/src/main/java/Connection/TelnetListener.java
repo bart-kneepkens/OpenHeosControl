@@ -25,6 +25,7 @@ import com.google.gson.GsonBuilder;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,7 +35,7 @@ import java.util.logging.Logger;
  * @author bartkneepkens
  */
 public class TelnetListener {
-    
+
     /* Networking */
     private static Socket socket;
     private static PrintWriter out;
@@ -69,9 +70,9 @@ public class TelnetListener {
 
         return gson.fromJson(in.next(), Response.class);
     }
-    
+
     public static void registerForChanges(final IChangeListener listener) {
-        if (socket == null || in == null || listener == null ) {
+        if (socket == null || in == null || listener == null) {
             return;
         }
 
@@ -83,17 +84,30 @@ public class TelnetListener {
                 public void run() {
                     while (true) {
                         Response read = gson.fromJson(in.next(), Response.class);
-                        
-                        switch(read.getCommand()){
+
+                        switch (read.getCommand()) {
                             case Events.PLAYER_STATE_CHANGED:
-                                //skip
+                            //skip
                             case Events.PLAYER_VOLUME_CHANGED:
-                                if(read.getMessage().contains("level=")){
+                                if (read.getMessage().contains("level=")) {
                                     //int playerId = Integer.parseInt(read.getMessage().substring(read.getMessage().indexOf("pid=") + 4, read.getMessage().indexOf("&level=")));
                                     int level = Integer.parseInt(read.getMessage().substring(read.getMessage().indexOf("level=") + 6, read.getMessage().indexOf("&mute=")));
-                                    
+
                                     listener.playerVolumeChanged(-1, level);
                                 }
+                            case Events.PLAYER_NOW_PLAYING_CHANGED:
+
+                                String pid = read.getMessage().substring(read.getMessage().indexOf("pid=") + 4);
+                                // Event does not hold any info about the song.
+                                Response r = TelnetConnection.write(PlayerCommands.PlayerCommands.GET_NOW_PLAYING_MEDIA(pid));
+
+                                 // Code repetition, fix this.
+                                if (r.getResult().equals(Results.SUCCESS)) {
+                                    Map<String, Object> map = (Map<String, Object>) r.getPayload();
+
+                                    listener.playerNowPlayingChanged("'" + map.get("song") + "' by " + map.get("artist"));
+                                }
+
                         }
                     }
                 }

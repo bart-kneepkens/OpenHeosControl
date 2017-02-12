@@ -309,4 +309,9 @@ public class Main extends javax.swing.JFrame implements IChangeListener {
     public void playerVolumeChanged(int playerId, int level) {
         volumeSlider.setValue(level);
     }
+
+    @Override
+    public void playerNowPlayingChanged(String nowPlaying) {
+        this.nowPlayingLabel.setText(nowPlaying);
+    }
 }
