@@ -30,7 +30,6 @@ import java.util.List;
 public class HeosController {
     private HeosSystem system;
     private int selectedPlayerIndex;
-    private int selectedPlayerId;
     private List<Player> players;
     
     public boolean connect(String ipAddress){
@@ -45,10 +44,6 @@ public class HeosController {
     
     public void changePlayerIndex(int playerIndex){
         selectedPlayerIndex = playerIndex;
-    }
-    
-    public void changePlayerId(int playerId){
-        selectedPlayerIndex = playerId;
     }
     
     public void play(){

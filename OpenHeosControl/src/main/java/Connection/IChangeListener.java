@@ -17,7 +17,7 @@
 package Connection;
 
 /**
- *
+ *  Interface that is used to subscribing to change notifications that are published by the Heos system.
  * @author bartkneepkens
  */
 public interface IChangeListener {

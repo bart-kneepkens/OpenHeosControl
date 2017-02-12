@@ -27,7 +27,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * Class with static methods that handle the Telnet connection to the Heos system.
  * @author bart-kneepkens
  */
 public class TelnetConnection {
@@ -39,6 +39,10 @@ public class TelnetConnection {
 
     private static Gson gson;
 
+    /**
+     * Connect to a Heos System that is located at a certain ip.
+     * @param ipAddress a valid IP address.
+     */
     public static void connect(final String ipAddress) {
         try {
             socket = new Socket(ipAddress, 1255);
@@ -51,6 +55,11 @@ public class TelnetConnection {
         }
     }
 
+    /**
+     * Write a certain command to the Heos System. 
+     * @param command a String describing the command (see Constants package)
+     * @return a Response
+     */
     public static Response write(final String command) {
         if (socket == null || out == null || in == null || gson == null) {
             return null;
@@ -66,6 +75,5 @@ public class TelnetConnection {
 
         return gson.fromJson(in.next(), Response.class);
     }
-
     
 }

@@ -32,7 +32,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * A class with static methods that is responsible for listening to change events on the Heos System side.
+ * Opens a separate socket connection, to be used in parallel with TelnetConnection, since it should be polling for any information.
  * @author bartkneepkens
  */
 public class TelnetListener {
@@ -44,6 +45,10 @@ public class TelnetListener {
 
     private static Gson gson;
 
+    /**
+     * Connect to a Heos System that is located at a certain ip.
+     * @param ipAddress a valid IP address.
+     */
     public static void connect(final String ipAddress) {
         try {
             socket = new Socket(ipAddress, 1255);
@@ -56,6 +61,11 @@ public class TelnetListener {
         }
     }
 
+    /**
+     * Write a certain command to the Heos System. 
+     * @param command a String describing the command (see Constants package)
+     * @return a Response
+     */
     public static Response write(final String command) {
         if (socket == null || out == null || in == null || gson == null) {
             return null;
@@ -71,7 +81,10 @@ public class TelnetListener {
 
         return gson.fromJson(in.next(), Response.class);
     }
-
+    /**
+     * Register a certain listener for change events. For now, the runnable is implemented inside this code block.
+     * @param listener any class that implements IChangeListener
+     */
     public static void registerForChanges(final IChangeListener listener) {
         if (socket == null || in == null || listener == null) {
             return;

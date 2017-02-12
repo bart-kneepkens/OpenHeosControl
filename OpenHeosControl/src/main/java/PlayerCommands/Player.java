@@ -19,7 +19,6 @@ package PlayerCommands;
 import Connection.TelnetConnection;
 import Connection.Response;
 import Constants.Results;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -161,6 +160,11 @@ public class Player {
         return response.getResult().equals(Results.SUCCESS);    
     }
     
+    /**
+     * Gets the now playing media in the format of:
+     * 'Song Name' by Song Artist
+     * @return Now playing media in a formatted String.
+     */
     public String getNowPlayingMedia(){
         Response response = TelnetConnection.write(PlayerCommands.GET_NOW_PLAYING_MEDIA(this.pid));
         
