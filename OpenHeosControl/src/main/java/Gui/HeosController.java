@@ -24,15 +24,18 @@ import SystemCommands.HeosSystem;
 import java.util.List;
 
 /**
- *
+ *  Represents a layer between GUI and actual HeosSystem, which can have multiple players.
  * @author bart-kneepkens
  */
 public class HeosController {
     private HeosSystem system;
     private int selectedPlayerIndex;
+    private int selectedPlayerId;
+    private List<Player> players;
     
     public boolean connect(String ipAddress){
         system = new HeosSystem(ipAddress);
+        players = system.getPlayers();
         return system.systemHeartBeat();
     }
     
@@ -44,23 +47,31 @@ public class HeosController {
         selectedPlayerIndex = playerIndex;
     }
     
+    public void changePlayerId(int playerId){
+        selectedPlayerIndex = playerId;
+    }
+    
     public void play(){
-        system.getPlayers().get(selectedPlayerIndex).setPlayState(PlayStates.PLAY);
+        players.get(selectedPlayerIndex).setPlayState(PlayStates.PLAY);
     }
     
     public void pause(){
-        system.getPlayers().get(selectedPlayerIndex).setPlayState(PlayStates.PAUSE);
+        players.get(selectedPlayerIndex).setPlayState(PlayStates.PAUSE);
     }
     
     public void stop(){
-        system.getPlayers().get(selectedPlayerIndex).setPlayState(PlayStates.STOP);
+        players.get(selectedPlayerIndex).setPlayState(PlayStates.STOP);
     }
     
     public void changeVolume(int volume){
-        system.getPlayers().get(selectedPlayerIndex).setVolume(volume);
+        players.get(selectedPlayerIndex).setVolume(volume);
+    }
+    
+    public int getVolume(){
+        return players.get(selectedPlayerIndex).getVolume();
     }
     
     public String getNowPlayingMedia(){
-        return system.getPlayers().get(selectedPlayerIndex).getNowPlayingMedia();
+        return players.get(selectedPlayerIndex).getNowPlayingMedia();
     }
 }

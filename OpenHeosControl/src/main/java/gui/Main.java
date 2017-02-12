@@ -18,8 +18,6 @@ package Gui;
 
 import Connection.IChangeListener;
 import Connection.TelnetListener;
-import SystemCommands.HeosSystem;
-import Constants.PlayStates;
 import Ssdp.SsdpClient;
 import PlayerCommands.Player;
 import java.awt.event.ItemEvent;
@@ -259,10 +257,9 @@ public class Main extends javax.swing.JFrame implements IChangeListener {
     private void playersComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_playersComboBoxItemStateChanged
        if(evt.getStateChange() == ItemEvent.SELECTED){
            int index = this.playersComboBox.getSelectedIndex();
-           //this.playerIndex = index;
            sys.changePlayerIndex(index);
            System.out.println("Player changed. to: " + index );
-           volumeSlider.setValue(sys.getPlayers().get(index).getVolume());
+           volumeSlider.setValue(sys.getVolume());
        }
     }//GEN-LAST:event_playersComboBoxItemStateChanged
 
