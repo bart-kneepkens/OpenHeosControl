@@ -44,4 +44,8 @@ public class PlayerCommands {
     public static final String VOLUME_DOWN(String pid, int step){
         return "heos://player/volume_down?pid=" + pid + "&step=" + String.valueOf(step);
     }
+    
+    public static final String GET_NOW_PLAYING_MEDIA(String pid){
+        return "heos://player/get_now_playing_media?pid=" + pid;
+    }
 }

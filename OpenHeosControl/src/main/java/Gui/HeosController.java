@@ -59,4 +59,8 @@ public class HeosController {
     public void changeVolume(int volume){
         system.getPlayers().get(selectedPlayerIndex).setVolume(volume);
     }
+    
+    public String getNowPlayingMedia(){
+        return system.getPlayers().get(selectedPlayerIndex).getNowPlayingMedia();
+    }
 }

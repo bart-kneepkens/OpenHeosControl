@@ -62,6 +62,7 @@ public class Main extends javax.swing.JFrame implements IChangeListener {
         ipTextField = new javax.swing.JTextField();
         connectButton = new javax.swing.JButton();
         findButton = new javax.swing.JButton();
+        nowPlayingLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("OpenHeosController");
@@ -142,6 +143,8 @@ public class Main extends javax.swing.JFrame implements IChangeListener {
             }
         });
 
+        nowPlayingLabel.setText("jLabel1");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -158,9 +161,12 @@ public class Main extends javax.swing.JFrame implements IChangeListener {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(stopButton))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(findButton)
-                                .addGap(33, 33, 33)
-                                .addComponent(connectButton)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(findButton)
+                                        .addGap(33, 33, 33)
+                                        .addComponent(connectButton))
+                                    .addComponent(nowPlayingLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 80, Short.MAX_VALUE))
@@ -181,8 +187,10 @@ public class Main extends javax.swing.JFrame implements IChangeListener {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(connectButton)
-                            .addComponent(findButton))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                            .addComponent(findButton))
+                        .addGap(74, 74, 74)
+                        .addComponent(nowPlayingLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(stopButton)
                     .addComponent(playButton)
@@ -216,28 +224,26 @@ public class Main extends javax.swing.JFrame implements IChangeListener {
         this.pauseButton.setEnabled(true);
         this.volumeSlider.setEnabled(true);
         TelnetListener.registerForChanges(this);
+        
+        this.nowPlayingLabel.setText(sys.getNowPlayingMedia());
     }//GEN-LAST:event_connectButtonActionPerformed
 
     private void playButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playButtonActionPerformed
-//        sys.getPlayers().get(playerIndex).setPlayState(PlayStates.PLAY);
         sys.play();
         System.out.println("PLAY");
     }//GEN-LAST:event_playButtonActionPerformed
 
     private void pauseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pauseButtonActionPerformed
-//        sys.getPlayers().get(playerIndex).setPlayState(PlayStates.PAUSE);
         sys.pause();
         System.out.println("PAUSE");
     }//GEN-LAST:event_pauseButtonActionPerformed
 
     private void stopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopButtonActionPerformed
-//        sys.getPlayers().get(playerIndex).setPlayState(PlayStates.STOP);
         sys.stop();
         System.out.println("STOP");
     }//GEN-LAST:event_stopButtonActionPerformed
 
     private void volumeSliderMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_volumeSliderMouseReleased
-//        sys.getPlayers().get(playerIndex).setVolume(volumeSlider.getValue());
         sys.changeVolume(volumeSlider.getValue());
         System.out.println("New volume: " + volumeSlider.getValue());
     }//GEN-LAST:event_volumeSliderMouseReleased
@@ -286,6 +292,7 @@ public class Main extends javax.swing.JFrame implements IChangeListener {
     private javax.swing.JButton findButton;
     private javax.swing.JTextField ipTextField;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel nowPlayingLabel;
     private javax.swing.JButton pauseButton;
     private javax.swing.JButton playButton;
     private javax.swing.JComboBox playersComboBox;

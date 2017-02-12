@@ -19,6 +19,7 @@ package PlayerCommands;
 import Connection.TelnetConnection;
 import Connection.Response;
 import Constants.Results;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -141,7 +142,7 @@ public class Player {
     /**
      * Ticks the volume up by a certain step.
      * @param step (between 1-10)
-     * @return boolean indicating a succesful operation.
+     * @return boolean indicating a successful operation.
      */
     public boolean volumeUp(int step){
         Response response = TelnetConnection.write(PlayerCommands.VOLUME_UP(this.pid, step));
@@ -152,11 +153,23 @@ public class Player {
     /**
      * Ticks the volume down by a certain step.
      * @param step (between 1-10)
-     * @return boolean indicating a succesful operation.
+     * @return boolean indicating a successful operation.
      */
     public boolean volumeDown(int step){
         Response response = TelnetConnection.write(PlayerCommands.VOLUME_DOWN(this.pid, step));
         
         return response.getResult().equals(Results.SUCCESS);    
+    }
+    
+    public String getNowPlayingMedia(){
+        Response response = TelnetConnection.write(PlayerCommands.GET_NOW_PLAYING_MEDIA(this.pid));
+        
+        if(response.getResult().equals(Results.SUCCESS)){
+            Map<String, Object> map = (Map<String, Object>) response.getPayload();
+            
+            return "'" + map.get("song") + "' by "+ map.get("artist");
+        }
+        
+        return null;
     }
 }
