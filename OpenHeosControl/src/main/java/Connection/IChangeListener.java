@@ -21,8 +21,8 @@ package Connection;
  * @author bartkneepkens
  */
 public interface IChangeListener {
-    void playerStateChanged(String state);
-    void playerVolumeChanged(int level);
-    void playerNowPlayingChanged(String nowPlaying);
-    void playerNowPlayingProgress(int current, int duration);
+    void playerStateChanged(String pid, String state);
+    void playerVolumeChanged(String pid, int level);
+    void playerNowPlayingChanged(String pid, String nowPlaying);
+    void playerNowPlayingProgress(String pid, int current, int duration);
 }

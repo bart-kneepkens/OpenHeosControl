@@ -211,8 +211,8 @@ public class Main extends javax.swing.JFrame implements IChangeListener {
         this.volumeSlider.setEnabled(true);
         TelnetListener.registerForChanges(this);
 
-        this.playerNowPlayingChanged(sys.getNowPlayingMedia());
-        this.playerStateChanged(sys.getState());
+        this.playerNowPlayingChanged(sys.currentPlayerPid(), sys.getNowPlayingMedia());
+        this.playerStateChanged(sys.currentPlayerPid(), sys.getState());
     }//GEN-LAST:event_connectButtonActionPerformed
 
     private void playButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playButtonActionPerformed
@@ -258,8 +258,8 @@ public class Main extends javax.swing.JFrame implements IChangeListener {
             sys.changePlayerIndex(index);
             System.out.println("Player changed. to: " + index);
             volumeSlider.setValue(sys.getVolume());
-            this.playerNowPlayingChanged(sys.getNowPlayingMedia());
-            this.playerStateChanged(sys.getState());
+            this.playerNowPlayingChanged(sys.currentPlayerPid(), sys.getNowPlayingMedia());
+            this.playerStateChanged(sys.currentPlayerPid(), sys.getState());
         }
     }//GEN-LAST:event_playersComboBoxItemStateChanged
 
@@ -290,35 +290,44 @@ public class Main extends javax.swing.JFrame implements IChangeListener {
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void playerStateChanged(String state) {
-//        playerStateLabel.setText(state);
-        String formatted = "";
-        if (state.equals(PlayStates.PLAY)) {
-            formatted = "Playing";
+    public void playerStateChanged(String pid, String state) {
+
+        if (sys.isCurrentPlayer(pid)) {
+
+            String formatted = "";
+            if (state.equals(PlayStates.PLAY)) {
+                formatted = "Playing";
+            }
+            if (state.equals(PlayStates.PAUSE)) {
+                formatted = "Paused";
+            }
+            if (state.equals(PlayStates.STOP)) {
+                formatted = "Stopped";
+            }
+
+            playerStateLabel.setText(formatted);
         }
-        if (state.equals(PlayStates.PAUSE)) {
-            formatted = "Paused";
-        }
-        if (state.equals(PlayStates.STOP)) {
-            formatted = "Stopped";
-        }
-        
-        playerStateLabel.setText(formatted);
     }
 
     @Override
-    public void playerVolumeChanged(int level) {
-        volumeSlider.setValue(level);
+    public void playerVolumeChanged(String pid, int level) {
+        if (sys.isCurrentPlayer(pid)) {
+            volumeSlider.setValue(level);
+        }
     }
 
     @Override
-    public void playerNowPlayingChanged(String nowPlaying) {
-        this.nowPlayingLabel.setText(nowPlaying);
+    public void playerNowPlayingChanged(String pid, String nowPlaying) {
+        if (sys.isCurrentPlayer(pid)) {
+            this.nowPlayingLabel.setText(nowPlaying);
+        }
     }
 
     @Override
-    public void playerNowPlayingProgress(int current, int duration) {
-        songProgressBar.setValue(current);
-        songProgressBar.setMaximum(duration);
+    public void playerNowPlayingProgress(String pid, int current, int duration) {
+        if (sys.isCurrentPlayer(pid)) {
+            songProgressBar.setValue(current);
+            songProgressBar.setMaximum(duration);
+        }
     }
 }

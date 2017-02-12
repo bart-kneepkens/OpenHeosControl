@@ -36,6 +36,14 @@ public class HeosController {
         return system.systemHeartBeat();
     }
     
+    public String currentPlayerPid(){
+        return this.players.get(selectedPlayerIndex).getPid();
+    }
+    
+    public boolean isCurrentPlayer(String pid){
+        return pid.substring(0, 9).equals(this.players.get(selectedPlayerIndex).getPid().substring(0, 9));
+    }
+    
     public List<Player> getPlayers(){
         return system.getPlayers();
     }
