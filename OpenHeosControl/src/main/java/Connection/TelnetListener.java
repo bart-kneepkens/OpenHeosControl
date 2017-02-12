@@ -119,6 +119,13 @@ public class TelnetListener {
 
                                     listener.playerNowPlayingChanged("'" + map.get("song") + "' by " + map.get("artist"));
                                 }
+                                
+                            case Events.PLAYER_NOW_PLAYING_PROGRESS:
+                                if(read.getMessage().contains("cur_pos")){
+                                    int current = Integer.parseInt(read.getMessage().substring(read.getMessage().indexOf("cur_pos=") + 8, read.getMessage().indexOf("&duration")));
+                                    int duration = Integer.parseInt(read.getMessage().substring(read.getMessage().indexOf("duration=") + 9));
+                                    listener.playerNowPlayingProgress(current, duration);
+                                }
 
                         }
                     }

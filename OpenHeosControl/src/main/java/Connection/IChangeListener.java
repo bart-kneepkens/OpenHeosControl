@@ -24,4 +24,5 @@ public interface IChangeListener {
     void playerStateChanged(String state);
     void playerVolumeChanged(int level);
     void playerNowPlayingChanged(String nowPlaying);
+    void playerNowPlayingProgress(int current, int duration);
 }
