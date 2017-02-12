@@ -16,8 +16,6 @@
  */
 package Gui;
 
-import Connection.IChangeListener;
-import Connection.TelnetListener;
 import Constants.PlayStates;
 import PlayerCommands.Player;
 import SystemCommands.HeosSystem;
@@ -64,6 +62,10 @@ public class HeosController {
     
     public int getVolume(){
         return players.get(selectedPlayerIndex).getVolume();
+    }
+    
+    public String getState(){
+        return players.get(selectedPlayerIndex).getPlayState();
     }
     
     public String getNowPlayingMedia(){

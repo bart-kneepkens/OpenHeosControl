@@ -42,17 +42,7 @@ public class ChangeListenerRunnable implements Runnable {
                 case Events.PLAYER_STATE_CHANGED:
                     if (read.getMessage().contains("state=")) {
                         String state = read.getMessage().substring(read.getMessage().indexOf("state=") + 6);
-                        String formatted = "";
-                        if (state.equals(PlayStates.PLAY)) {
-                            formatted = "Playing";
-                        }
-                        if (state.equals(PlayStates.PAUSE)) {
-                            formatted = "Paused";
-                        }
-                        if (state.equals(PlayStates.STOP)) {
-                            formatted = "Stopped";
-                        }
-                        listener.playerStateChanged(formatted);
+                        listener.playerStateChanged(state);
                     }
                 case Events.PLAYER_VOLUME_CHANGED:
                     if (read.getMessage().contains("level=")) {

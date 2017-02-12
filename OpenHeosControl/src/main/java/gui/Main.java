@@ -18,6 +18,7 @@ package Gui;
 
 import Connection.IChangeListener;
 import Connection.TelnetListener;
+import Constants.PlayStates;
 import Ssdp.SsdpClient;
 import PlayerCommands.Player;
 import java.awt.event.ItemEvent;
@@ -31,7 +32,7 @@ import javax.swing.JOptionPane;
  * @author bart-kneepkens
  */
 public class Main extends javax.swing.JFrame implements IChangeListener {
-    
+
     //HeosSystem sys;
     HeosController sys;
 
@@ -61,7 +62,7 @@ public class Main extends javax.swing.JFrame implements IChangeListener {
         nowPlayingLabel = new javax.swing.JLabel();
         playerStateLabel = new javax.swing.JLabel();
         playersComboBox = new javax.swing.JComboBox();
-        progressSlider = new javax.swing.JSlider();
+        songProgressBar = new javax.swing.JProgressBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("OpenHeosController");
@@ -118,10 +119,7 @@ public class Main extends javax.swing.JFrame implements IChangeListener {
             }
         });
 
-        nowPlayingLabel.setText("'Hello' by Adele");
-
         playerStateLabel.setFont(new java.awt.Font("Malayalam MN", 2, 13)); // NOI18N
-        playerStateLabel.setText("Playing");
 
         playersComboBox.setEnabled(false);
         playersComboBox.addItemListener(new java.awt.event.ItemListener() {
@@ -130,14 +128,12 @@ public class Main extends javax.swing.JFrame implements IChangeListener {
             }
         });
 
-        progressSlider.setValue(0);
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(volumeSlider, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(ipTextField)
@@ -157,9 +153,9 @@ public class Main extends javax.swing.JFrame implements IChangeListener {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(playerStateLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(nowPlayingLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(nowPlayingLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(songProgressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
-            .addComponent(progressSlider, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -180,9 +176,9 @@ public class Main extends javax.swing.JFrame implements IChangeListener {
                     .addComponent(playersComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(volumeSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
-                .addComponent(progressSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
+                .addComponent(songProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(nowPlayingLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
                     .addComponent(playerStateLabel))
@@ -194,27 +190,31 @@ public class Main extends javax.swing.JFrame implements IChangeListener {
 
     private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectButtonActionPerformed
         String ip = this.ipTextField.getText();
-        
+
         sys = new HeosController();
-        
-        
-        if(sys.connect(ip)){
-            System.out.println("CONNECTED TO IP: " + ip );
+
+        if (sys.connect(ip)) {
+            System.out.println("CONNECTED TO IP: " + ip);
             volumeSlider.setValue(sys.getPlayers().get(0).getVolume());
-            
+
             for (Player p : sys.getPlayers()) {
                 this.playersComboBox.addItem(p.getName());
             }
+
+            this.ipTextField.setEnabled(false);
+            this.connectButton.setEnabled(false);
+            this.findButton.setEnabled(false);
         }
-        
+
         this.playersComboBox.setEnabled(true);
         this.playButton.setEnabled(true);
         this.stopButton.setEnabled(true);
         this.pauseButton.setEnabled(true);
         this.volumeSlider.setEnabled(true);
         TelnetListener.registerForChanges(this);
-        
-        this.nowPlayingLabel.setText(sys.getNowPlayingMedia());
+
+        this.playerNowPlayingChanged(sys.getNowPlayingMedia());
+        this.playerStateChanged(sys.getState());
     }//GEN-LAST:event_connectButtonActionPerformed
 
     private void playButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playButtonActionPerformed
@@ -255,12 +255,14 @@ public class Main extends javax.swing.JFrame implements IChangeListener {
     }//GEN-LAST:event_findButtonActionPerformed
 
     private void playersComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_playersComboBoxItemStateChanged
-       if(evt.getStateChange() == ItemEvent.SELECTED){
-           int index = this.playersComboBox.getSelectedIndex();
-           sys.changePlayerIndex(index);
-           System.out.println("Player changed. to: " + index );
-           volumeSlider.setValue(sys.getVolume());
-       }
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            int index = this.playersComboBox.getSelectedIndex();
+            sys.changePlayerIndex(index);
+            System.out.println("Player changed. to: " + index);
+            volumeSlider.setValue(sys.getVolume());
+            this.playerNowPlayingChanged(sys.getNowPlayingMedia());
+            this.playerStateChanged(sys.getState());
+        }
     }//GEN-LAST:event_playersComboBoxItemStateChanged
 
     /**
@@ -284,14 +286,26 @@ public class Main extends javax.swing.JFrame implements IChangeListener {
     private javax.swing.JButton playButton;
     private javax.swing.JLabel playerStateLabel;
     private javax.swing.JComboBox playersComboBox;
-    private javax.swing.JSlider progressSlider;
+    private javax.swing.JProgressBar songProgressBar;
     private javax.swing.JButton stopButton;
     private javax.swing.JSlider volumeSlider;
     // End of variables declaration//GEN-END:variables
 
     @Override
     public void playerStateChanged(String state) {
-        playerStateLabel.setText(state);
+//        playerStateLabel.setText(state);
+        String formatted = "";
+        if (state.equals(PlayStates.PLAY)) {
+            formatted = "Playing";
+        }
+        if (state.equals(PlayStates.PAUSE)) {
+            formatted = "Paused";
+        }
+        if (state.equals(PlayStates.STOP)) {
+            formatted = "Stopped";
+        }
+        
+        playerStateLabel.setText(formatted);
     }
 
     @Override
@@ -306,7 +320,7 @@ public class Main extends javax.swing.JFrame implements IChangeListener {
 
     @Override
     public void playerNowPlayingProgress(int current, int duration) {
-        progressSlider.setValue(current);
-        progressSlider.setMaximum(duration);
+        songProgressBar.setValue(current);
+        songProgressBar.setMaximum(duration);
     }
 }

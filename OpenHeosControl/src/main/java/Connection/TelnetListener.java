@@ -16,8 +16,6 @@
  */
 package Connection;
 
-import Constants.Events;
-import Constants.PlayStates;
 import Constants.Results;
 import SystemCommands.HeosSystem;
 import SystemCommands.SystemCommands;
@@ -26,7 +24,6 @@ import com.google.gson.GsonBuilder;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Map;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
