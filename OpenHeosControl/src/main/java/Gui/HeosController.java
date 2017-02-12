@@ -16,6 +16,8 @@
  */
 package Gui;
 
+import Connection.IChangeListener;
+import Connection.TelnetListener;
 import Constants.PlayStates;
 import PlayerCommands.Player;
 import SystemCommands.HeosSystem;
@@ -36,6 +38,10 @@ public class HeosController {
     
     public List<Player> getPlayers(){
         return system.getPlayers();
+    }
+    
+    public void changePlayerIndex(int playerIndex){
+        selectedPlayerIndex = playerIndex;
     }
     
     public void play(){

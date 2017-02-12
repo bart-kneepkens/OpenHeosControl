@@ -16,6 +16,8 @@
  */
 package Gui;
 
+import Connection.IChangeListener;
+import Connection.TelnetListener;
 import SystemCommands.HeosSystem;
 import Constants.PlayStates;
 import Ssdp.SsdpClient;
@@ -30,10 +32,10 @@ import javax.swing.JOptionPane;
  *
  * @author bart-kneepkens
  */
-public class Main extends javax.swing.JFrame {
+public class Main extends javax.swing.JFrame implements IChangeListener {
     
-    HeosSystem sys;
-    int playerIndex = 0;
+    //HeosSystem sys;
+    HeosController sys;
 
     /**
      * Creates new form Main
@@ -196,9 +198,10 @@ public class Main extends javax.swing.JFrame {
     private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectButtonActionPerformed
         String ip = this.ipTextField.getText();
         
-        sys = new HeosSystem(ip);
+        sys = new HeosController();
         
-        if(sys.systemHeartBeat()){
+        
+        if(sys.connect(ip)){
             System.out.println("CONNECTED TO IP: " + ip );
             volumeSlider.setValue(sys.getPlayers().get(0).getVolume());
             
@@ -212,25 +215,30 @@ public class Main extends javax.swing.JFrame {
         this.stopButton.setEnabled(true);
         this.pauseButton.setEnabled(true);
         this.volumeSlider.setEnabled(true);
+        TelnetListener.registerForChanges(this);
     }//GEN-LAST:event_connectButtonActionPerformed
 
     private void playButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playButtonActionPerformed
-        sys.getPlayers().get(playerIndex).setPlayState(PlayStates.PLAY);
+//        sys.getPlayers().get(playerIndex).setPlayState(PlayStates.PLAY);
+        sys.play();
         System.out.println("PLAY");
     }//GEN-LAST:event_playButtonActionPerformed
 
     private void pauseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pauseButtonActionPerformed
-        sys.getPlayers().get(playerIndex).setPlayState(PlayStates.PAUSE);
+//        sys.getPlayers().get(playerIndex).setPlayState(PlayStates.PAUSE);
+        sys.pause();
         System.out.println("PAUSE");
     }//GEN-LAST:event_pauseButtonActionPerformed
 
     private void stopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopButtonActionPerformed
-        sys.getPlayers().get(playerIndex).setPlayState(PlayStates.STOP);
+//        sys.getPlayers().get(playerIndex).setPlayState(PlayStates.STOP);
+        sys.stop();
         System.out.println("STOP");
     }//GEN-LAST:event_stopButtonActionPerformed
 
     private void volumeSliderMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_volumeSliderMouseReleased
-        sys.getPlayers().get(playerIndex).setVolume(volumeSlider.getValue());
+//        sys.getPlayers().get(playerIndex).setVolume(volumeSlider.getValue());
+        sys.changeVolume(volumeSlider.getValue());
         System.out.println("New volume: " + volumeSlider.getValue());
     }//GEN-LAST:event_volumeSliderMouseReleased
 
@@ -254,7 +262,8 @@ public class Main extends javax.swing.JFrame {
     private void playersComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_playersComboBoxItemStateChanged
        if(evt.getStateChange() == ItemEvent.SELECTED){
            int index = this.playersComboBox.getSelectedIndex();
-           this.playerIndex = index;
+           //this.playerIndex = index;
+           sys.changePlayerIndex(index);
            System.out.println("Player changed. to: " + index );
            volumeSlider.setValue(sys.getPlayers().get(index).getVolume());
        }
@@ -283,4 +292,14 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton stopButton;
     private javax.swing.JSlider volumeSlider;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void playerStateChanged(int playerId, PlayStates state) {
+        
+    }
+
+    @Override
+    public void playerVolumeChanged(int playerId, int level) {
+        volumeSlider.setValue(level);
+    }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 bart-kneepkens
+ * Copyright (C) 2017 bartkneepkens
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,7 +16,10 @@
  */
 package Connection;
 
+import Constants.Events;
+import Constants.Results;
 import SystemCommands.HeosSystem;
+import SystemCommands.SystemCommands;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.io.IOException;
@@ -28,10 +31,10 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author bart-kneepkens
+ * @author bartkneepkens
  */
-public class TelnetConnection {
-
+public class TelnetListener {
+    
     /* Networking */
     private static Socket socket;
     private static PrintWriter out;
@@ -66,6 +69,35 @@ public class TelnetConnection {
 
         return gson.fromJson(in.next(), Response.class);
     }
-
     
+    public static void registerForChanges(final IChangeListener listener) {
+        if (socket == null || in == null || listener == null ) {
+            return;
+        }
+
+        Response r = TelnetListener.write(SystemCommands.REGISTER_FOR_CHANGE_EVENTS(true));
+
+        if (r.getResult().equals(Results.SUCCESS)) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    while (true) {
+                        Response read = gson.fromJson(in.next(), Response.class);
+                        
+                        switch(read.getCommand()){
+                            case Events.PLAYER_STATE_CHANGED:
+                                //skip
+                            case Events.PLAYER_VOLUME_CHANGED:
+                                if(read.getMessage().contains("level=")){
+                                    //int playerId = Integer.parseInt(read.getMessage().substring(read.getMessage().indexOf("pid=") + 4, read.getMessage().indexOf("&level=")));
+                                    int level = Integer.parseInt(read.getMessage().substring(read.getMessage().indexOf("level=") + 6, read.getMessage().indexOf("&mute=")));
+                                    
+                                    listener.playerVolumeChanged(-1, level);
+                                }
+                        }
+                    }
+                }
+            }).start();
+        }
+    }
 }

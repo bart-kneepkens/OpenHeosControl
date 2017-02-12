@@ -19,6 +19,7 @@ package SystemCommands;
 import Connection.TelnetConnection;
 import PlayerCommands.Player;
 import Connection.Response;
+import Connection.TelnetListener;
 import Constants.Results;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +40,7 @@ public class HeosSystem {
         }
               
         TelnetConnection.connect(ipAddress);
-        TelnetConnection.write(SystemCommands.REGISTER_FOR_CHANGE_EVENTS(true));
+        TelnetListener.connect(ipAddress);
     }
    
     /**
