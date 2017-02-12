@@ -16,14 +16,12 @@
  */
 package Connection;
 
-import Constants.PlayStates;
-
 /**
  *
  * @author bartkneepkens
  */
 public interface IChangeListener {
-    void playerStateChanged(int playerId, PlayStates state);
-    void playerVolumeChanged(int playerId, int level);
+    void playerStateChanged(String state);
+    void playerVolumeChanged(int level);
     void playerNowPlayingChanged(String nowPlaying);
 }

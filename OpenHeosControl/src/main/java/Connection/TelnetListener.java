@@ -17,6 +17,7 @@
 package Connection;
 
 import Constants.Events;
+import Constants.PlayStates;
 import Constants.Results;
 import SystemCommands.HeosSystem;
 import SystemCommands.SystemCommands;
@@ -87,13 +88,24 @@ public class TelnetListener {
 
                         switch (read.getCommand()) {
                             case Events.PLAYER_STATE_CHANGED:
-                            //skip
+                                if(read.getMessage().contains("state=")){
+                                    String state = read.getMessage().substring(read.getMessage().indexOf("state=") + 6);
+                                    String formatted = "";
+                                    if(state.equals(PlayStates.PLAY)){
+                                        formatted = "Playing";
+                                    }
+                                    if(state.equals(PlayStates.PAUSE)){
+                                        formatted = "Paused";
+                                    }
+                                    if(state.equals(PlayStates.STOP)){
+                                        formatted = "Stopped";
+                                    }
+                                    listener.playerStateChanged(formatted);
+                                }
                             case Events.PLAYER_VOLUME_CHANGED:
                                 if (read.getMessage().contains("level=")) {
-                                    //int playerId = Integer.parseInt(read.getMessage().substring(read.getMessage().indexOf("pid=") + 4, read.getMessage().indexOf("&level=")));
                                     int level = Integer.parseInt(read.getMessage().substring(read.getMessage().indexOf("level=") + 6, read.getMessage().indexOf("&mute=")));
-
-                                    listener.playerVolumeChanged(-1, level);
+                                    listener.playerVolumeChanged(level);
                                 }
                             case Events.PLAYER_NOW_PLAYING_CHANGED:
 
@@ -101,7 +113,7 @@ public class TelnetListener {
                                 // Event does not hold any info about the song.
                                 Response r = TelnetConnection.write(PlayerCommands.PlayerCommands.GET_NOW_PLAYING_MEDIA(pid));
 
-                                 // Code repetition, fix this.
+                                // Code repetition, fix this.
                                 if (r.getResult().equals(Results.SUCCESS)) {
                                     Map<String, Object> map = (Map<String, Object>) r.getPayload();
 

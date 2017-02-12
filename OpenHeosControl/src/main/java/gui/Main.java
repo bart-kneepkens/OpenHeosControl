@@ -63,6 +63,7 @@ public class Main extends javax.swing.JFrame implements IChangeListener {
         connectButton = new javax.swing.JButton();
         findButton = new javax.swing.JButton();
         nowPlayingLabel = new javax.swing.JLabel();
+        playerStateLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("OpenHeosController");
@@ -143,7 +144,10 @@ public class Main extends javax.swing.JFrame implements IChangeListener {
             }
         });
 
-        nowPlayingLabel.setText("jLabel1");
+        nowPlayingLabel.setText("'Hello' by Adele");
+
+        playerStateLabel.setFont(new java.awt.Font("Malayalam MN", 2, 13)); // NOI18N
+        playerStateLabel.setText("Playing");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -161,18 +165,23 @@ public class Main extends javax.swing.JFrame implements IChangeListener {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(stopButton))
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(findButton)
                                         .addGap(33, 33, 33)
                                         .addComponent(connectButton))
-                                    .addComponent(nowPlayingLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(playerStateLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(nowPlayingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 80, Short.MAX_VALUE))
-                    .addComponent(volumeSlider, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(ipTextField))
-                .addContainerGap())
+                        .addGap(86, 86, 86))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(volumeSlider, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(ipTextField))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -189,7 +198,9 @@ public class Main extends javax.swing.JFrame implements IChangeListener {
                             .addComponent(connectButton)
                             .addComponent(findButton))
                         .addGap(74, 74, 74)
-                        .addComponent(nowPlayingLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(nowPlayingLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
+                            .addComponent(playerStateLabel))))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(stopButton)
@@ -295,18 +306,19 @@ public class Main extends javax.swing.JFrame implements IChangeListener {
     private javax.swing.JLabel nowPlayingLabel;
     private javax.swing.JButton pauseButton;
     private javax.swing.JButton playButton;
+    private javax.swing.JLabel playerStateLabel;
     private javax.swing.JComboBox playersComboBox;
     private javax.swing.JButton stopButton;
     private javax.swing.JSlider volumeSlider;
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void playerStateChanged(int playerId, PlayStates state) {
-        
+    public void playerStateChanged(String state) {
+        playerStateLabel.setText(state);
     }
 
     @Override
-    public void playerVolumeChanged(int playerId, int level) {
+    public void playerVolumeChanged(int level) {
         volumeSlider.setValue(level);
     }
 

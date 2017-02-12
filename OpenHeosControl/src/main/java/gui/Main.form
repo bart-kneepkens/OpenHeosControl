@@ -37,24 +37,32 @@
                               <Component id="stopButton" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
                                   <Group type="102" attributes="0">
                                       <Component id="findButton" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
                                       <Component id="connectButton" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="nowPlayingLabel" max="32767" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <Component id="playerStateLabel" max="32767" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="nowPlayingLabel" min="-2" pref="166" max="-2" attributes="0"/>
+                                  </Group>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace min="0" pref="80" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="86" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="volumeSlider" alignment="0" max="32767" attributes="0"/>
-                  <Component id="ipTextField" alignment="0" max="32767" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="volumeSlider" alignment="0" max="32767" attributes="0"/>
+                          <Component id="ipTextField" alignment="0" max="32767" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -75,7 +83,10 @@
                           <Component id="findButton" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="74" max="-2" attributes="0"/>
-                      <Component id="nowPlayingLabel" pref="48" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="nowPlayingLabel" alignment="3" pref="48" max="32767" attributes="0"/>
+                          <Component id="playerStateLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
               </Group>
               <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
@@ -191,7 +202,15 @@
     </Component>
     <Component class="javax.swing.JLabel" name="nowPlayingLabel">
       <Properties>
-        <Property name="text" type="java.lang.String" value="jLabel1"/>
+        <Property name="text" type="java.lang.String" value="&apos;Hello&apos; by Adele"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="playerStateLabel">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Malayalam MN" size="13" style="2"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Playing"/>
       </Properties>
     </Component>
   </SubComponents>
