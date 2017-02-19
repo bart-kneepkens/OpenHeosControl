@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/bart-kneepkens/OpenHeosControl.svg?branch=master)](https://travis-ci.org/bart-kneepkens/OpenHeosControl)
+
 # OpenHeosControl
 
 OpenHeosControl is a lightweight desktop application to control HEOS sound systems around your home.
