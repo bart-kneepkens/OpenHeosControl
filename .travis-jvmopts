@@ -1,0 +1,2 @@
+# JVM Options for Travis-CI
+-Djava.net.preferIPv4Stack=true
