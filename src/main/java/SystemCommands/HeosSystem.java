@@ -34,11 +34,6 @@ import java.util.Map;
 public class HeosSystem {
     
     public HeosSystem(String ipAddress){
-        if(ipAddress == null){
-            // Also check with regex for the ip address signature.
-            // Exception, BOOM.
-        }
-              
         TelnetConnection.connect(ipAddress);
         TelnetListener.connect(ipAddress);
     }
