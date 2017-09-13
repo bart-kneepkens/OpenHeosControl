@@ -35,7 +35,6 @@ public class MainV02 extends javax.swing.JFrame {
      * Creates new form MainV02
      */
     public MainV02() {
-        this.setAppName();
         initComponents();
         this.loadAssets();
     }
@@ -60,19 +59,6 @@ public class MainV02 extends javax.swing.JFrame {
         this.playIcon = new ImageIcon(getClass().getResource(Assets.PLAY));
         this.pauseIcon = new ImageIcon(getClass().getResource(Assets.PAUSE));
         this.stopIcon = new ImageIcon(getClass().getResource(Assets.STOP));
-    }
-
-    private void setAppName() {
-        // take the menu bar off the jframe
-        System.setProperty("apple.laf.useScreenMenuBar", "true");
-
-        // set the name of the application menu item
-        System.setProperty("com.apple.mrj.application.apple.menu.about.name", "AppName");
-
-        System.setProperty("apple.laf.useScreenMenuBar", "true");
-        System.setProperty("apple.awt.application.name", "ImageRotator");
-        
-       
     }
 
     /**
