@@ -47,7 +47,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>Gui.Main</mainClass>
+                            <mainClass>Gui.OpenHEOSControlMain</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
