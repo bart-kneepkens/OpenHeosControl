@@ -24,4 +24,7 @@ public class Assets {
     public static final String PLAY = "/media-play-6x.png";
     public static final String PAUSE = "/media-pause-6x.png";
     public static final String STOP = "/media-stop-6x.png";
+    public static final String PLAY_PRESSED = "/pressed/media-play-6x.png";
+    public static final String PAUSE_PRESSED = "/pressed/media-pause-6x.png";
+    public static final String STOP_PRESSED = "/pressed/media-stop-6x.png";
 }
