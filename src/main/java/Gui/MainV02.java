@@ -18,56 +18,32 @@ package Gui;
 
 import Constants.Assets;
 import Constants.PlayStates;
+import Gui.Observers.ControlsObserver;
+import ViewModel.MainViewModel;
+import Gui.Observers.VolumeObserver;
 import javax.swing.ImageIcon;
-import javax.swing.UIManager;
 
 /**
  *
  * @author bartkneepkens
  */
 public class MainV02 extends javax.swing.JFrame {
-
-    private ImageIcon playIcon;
-    private ImageIcon pauseIcon;
-    private ImageIcon stopIcon;
-    private ImageIcon playIconPressed;
-    private ImageIcon pauseIconPressed;
-    private ImageIcon stopIconPressed;
+    private MainViewModel viewModel;
 
     /**
      * Creates new form MainV02
      */
     public MainV02() {
         initComponents();
-        this.loadAssets();
-    }
+        this.viewModel = new MainViewModel();
+        
+        VolumeObserver vol = new VolumeObserver(this.volumeSlider, this.volumeLabel);
 
-    public void setPlayButtonState(String state) {
-        switch (state) {
-            case PlayStates.PLAY:
-                this.playPauseStopButton.setIcon(playIcon);
-                this.playPauseStopButton.setPressedIcon(playIconPressed);
-                break;
-            case PlayStates.PAUSE:
-                this.playPauseStopButton.setIcon(pauseIcon);
-                this.playPauseStopButton.setPressedIcon(pauseIconPressed);
-                break;
-            case PlayStates.STOP:
-                this.playPauseStopButton.setIcon(stopIcon);
-                this.playPauseStopButton.setPressedIcon(stopIconPressed);
-                break;
-            default:
-                break;
-        }
-    }
-
-    private void loadAssets() {
-        this.playIcon = new ImageIcon(getClass().getResource(Assets.PLAY));
-        this.playIconPressed = new ImageIcon(getClass().getResource(Assets.PLAY_PRESSED));
-        this.pauseIcon = new ImageIcon(getClass().getResource(Assets.PAUSE));
-        this.pauseIconPressed = new ImageIcon(getClass().getResource(Assets.PAUSE_PRESSED));
-        this.stopIcon = new ImageIcon(getClass().getResource(Assets.STOP));
-        this.stopIconPressed = new ImageIcon(getClass().getResource(Assets.STOP_PRESSED));
+        this.viewModel.changes.addPropertyChangeListener("volume", vol);
+        
+        ControlsObserver ctl = new ControlsObserver(this.playPauseStopButton, this.songProgressBar);
+        
+        this.viewModel.changes.addPropertyChangeListener("playstate", ctl);
     }
 
     /**
@@ -108,6 +84,7 @@ public class MainV02 extends javax.swing.JFrame {
         volumePanel = new javax.swing.JPanel();
         volumeSlider = new javax.swing.JSlider();
         jButton2 = new javax.swing.JButton();
+        volumeLabel = new javax.swing.JLabel();
         searchPanel = new javax.swing.JPanel();
         searchMediaTextField = new javax.swing.JTextField();
         searchButton = new javax.swing.JButton();
@@ -177,7 +154,7 @@ public class MainV02 extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -373,25 +350,34 @@ public class MainV02 extends javax.swing.JFrame {
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/volume-high-3x.png"))); // NOI18N
         jButton2.setBorderPainted(false);
 
+        volumeLabel.setText("100");
+
         javax.swing.GroupLayout volumePanelLayout = new javax.swing.GroupLayout(volumePanel);
         volumePanel.setLayout(volumePanelLayout);
         volumePanelLayout.setHorizontalGroup(
             volumePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(volumePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(volumePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(volumePanelLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(volumeLabel))
+                    .addComponent(jButton2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(volumeSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(volumeSlider, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap())
         );
         volumePanelLayout.setVerticalGroup(
             volumePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(volumePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(volumePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(volumeSlider, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addGroup(volumePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(volumeSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(volumePanelLayout.createSequentialGroup()
+                        .addComponent(jButton2)
+                        .addGap(8, 8, 8)
+                        .addComponent(volumeLabel)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         searchButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/magnifying-glass-2x.png"))); // NOI18N
@@ -427,40 +413,42 @@ public class MainV02 extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(volumePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 238, Short.MAX_VALUE))
+                    .addComponent(volumePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(controlsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(searchPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(controlsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(volumePanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(controlsPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(9, 9, 9)
-                        .addComponent(searchPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(searchPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(volumePanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void playPauseStopButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playPauseStopButtonMouseClicked
-        this.setPlayButtonState(PlayStates.STOP);
+
+        this.viewModel.setVolume(88);
+        this.viewModel.setPlayState(PlayStates.PAUSE);
     }//GEN-LAST:event_playPauseStopButtonMouseClicked
 
     /**
@@ -506,6 +494,7 @@ public class MainV02 extends javax.swing.JFrame {
     private javax.swing.JProgressBar songProgressBar;
     private javax.swing.JLabel timePassedLabel;
     private javax.swing.JLabel timeToGoLabel;
+    private javax.swing.JLabel volumeLabel;
     private javax.swing.JPanel volumePanel;
     private javax.swing.JSlider volumeSlider;
     // End of variables declaration//GEN-END:variables
