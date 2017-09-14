@@ -22,6 +22,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JProgressBar;
 
 /**
@@ -39,10 +40,15 @@ public class ControlsObserver implements PropertyChangeListener {
 
     private JButton playPauseStopButton;
     private JProgressBar songProgressBar;
+    private JLabel timePassedLabel;
+    private JLabel timeToGoLabel;
 
-    public ControlsObserver(JButton playPauseStopButton, JProgressBar songProgressBar) {
+    public ControlsObserver(JButton playPauseStopButton, JProgressBar songProgressBar,
+            JLabel timePassedLabel, JLabel timeToGoLabel) {
         this.playPauseStopButton = playPauseStopButton;
         this.songProgressBar = songProgressBar;
+        this.timePassedLabel = timePassedLabel;
+        this.timeToGoLabel = timeToGoLabel;
         this.loadAssets();
     }
 
@@ -51,9 +57,15 @@ public class ControlsObserver implements PropertyChangeListener {
         String changedPropertyName = evt.getPropertyName();
 
         switch (changedPropertyName) {
-            case "playstate":
+            case ObservablePropertyNames.PLAYSTATE:
                 String newState = (String) evt.getNewValue();
                 this.setPlayButtonState(newState);
+                break;
+            case ObservablePropertyNames.SONGPROGRESS:
+                int newProgress = (int) evt.getNewValue();
+                this.songProgressBar.setValue(newProgress);
+                // Insert some formatting solution
+                this.timePassedLabel.setText(String.valueOf(newProgress));
                 break;
             default:
                 break;

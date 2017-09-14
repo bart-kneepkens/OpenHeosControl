@@ -19,6 +19,7 @@ package Gui;
 import Constants.Assets;
 import Constants.PlayStates;
 import Gui.Observers.ControlsObserver;
+import Gui.Observers.ObservablePropertyNames;
 import ViewModel.MainViewModel;
 import Gui.Observers.VolumeObserver;
 import javax.swing.ImageIcon;
@@ -39,11 +40,13 @@ public class MainV02 extends javax.swing.JFrame {
         
         VolumeObserver vol = new VolumeObserver(this.volumeSlider, this.volumeLabel);
 
-        this.viewModel.changes.addPropertyChangeListener("volume", vol);
+        this.viewModel.changes.addPropertyChangeListener(ObservablePropertyNames.VOLUME, vol);
         
-        ControlsObserver ctl = new ControlsObserver(this.playPauseStopButton, this.songProgressBar);
+        ControlsObserver ctl = new ControlsObserver(this.playPauseStopButton, 
+                this.songProgressBar, this.timePassedLabel, this.timeToGoLabel);
         
-        this.viewModel.changes.addPropertyChangeListener("playstate", ctl);
+        this.viewModel.changes.addPropertyChangeListener(ObservablePropertyNames.PLAYSTATE, ctl);
+        this.viewModel.changes.addPropertyChangeListener(ObservablePropertyNames.SONGPROGRESS, ctl);
     }
 
     /**
@@ -449,6 +452,7 @@ public class MainV02 extends javax.swing.JFrame {
 
         this.viewModel.setVolume(88);
         this.viewModel.setPlayState(PlayStates.PAUSE);
+        this.viewModel.setSongProgress(88);
     }//GEN-LAST:event_playPauseStopButtonMouseClicked
 
     /**

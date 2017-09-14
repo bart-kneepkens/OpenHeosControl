@@ -16,10 +16,8 @@
  */
 package ViewModel;
 
+import Gui.Observers.ObservablePropertyNames;
 import java.beans.PropertyChangeSupport;
-import java.util.Observer;
-import javafx.beans.InvalidationListener;
-import java.util.Observable;
 
 /**
  *
@@ -29,6 +27,7 @@ public class MainViewModel {
     public PropertyChangeSupport changes = new PropertyChangeSupport(this);
     private int volume;
     private String state;
+    private int songProgress;
     
     public MainViewModel() {
         
@@ -37,13 +36,19 @@ public class MainViewModel {
     public void setVolume(int volume) {
         int oldVolume = this.volume;
         this.volume = volume;
-        changes.firePropertyChange("volume", oldVolume, volume);
+        changes.firePropertyChange(ObservablePropertyNames.VOLUME, oldVolume, volume);
     }
     
     public void setPlayState(String state) {
         String oldState = this.state;
         this.state = state;
-        changes.firePropertyChange("playstate", oldState, state);
+        changes.firePropertyChange(ObservablePropertyNames.PLAYSTATE, oldState, state);
+    }
+    
+    public void setSongProgress(int progress) {
+        int oldProgress = this.songProgress;
+        this.songProgress = progress;
+        changes.firePropertyChange(ObservablePropertyNames.SONGPROGRESS, oldProgress, progress);
     }
 
 }
