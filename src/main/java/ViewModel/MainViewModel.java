@@ -26,8 +26,13 @@ import java.beans.PropertyChangeSupport;
 public class MainViewModel {
     public PropertyChangeSupport changes = new PropertyChangeSupport(this);
     private int volume;
+    
     private String state;
     private int songProgress;
+    private int songDuration;
+    
+    private String mediaImageUrl;
+    
     
     public MainViewModel() {
         
@@ -49,6 +54,23 @@ public class MainViewModel {
         int oldProgress = this.songProgress;
         this.songProgress = progress;
         changes.firePropertyChange(ObservablePropertyNames.SONGPROGRESS, oldProgress, progress);
+    }
+    
+    public void setSongDuration(int duration) {
+        int oldDuration = this.songDuration;
+        this.songDuration = duration;
+        changes.firePropertyChange(ObservablePropertyNames.SONGDURATION, oldDuration, duration);
+    }
+    
+    public void setMediaImage(String url) {
+        // Load image somehow
+        // Should I load the image from URL in the observer itself or here?
+        // Image Object in ViewModel because View should be dumb.
+        // But... the VM should also be UI independent.
+        
+        String oldURl = this.mediaImageUrl;
+        this.mediaImageUrl = url;
+        changes.firePropertyChange(ObservablePropertyNames.SONGIMAGE, oldURl, url);
     }
 
 }

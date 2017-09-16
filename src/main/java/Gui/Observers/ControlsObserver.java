@@ -38,17 +38,17 @@ public class ControlsObserver implements PropertyChangeListener {
     private ImageIcon pauseIconPressed;
     private ImageIcon stopIconPressed;
 
-    private JButton playPauseStopButton;
-    private JProgressBar songProgressBar;
-    private JLabel timePassedLabel;
-    private JLabel timeToGoLabel;
+    private final JButton playPauseStopButton;
+    private final JProgressBar songProgressBar;
+    private final JLabel timePassedLabel;
+    private final JLabel songDurationLabel;
 
     public ControlsObserver(JButton playPauseStopButton, JProgressBar songProgressBar,
-            JLabel timePassedLabel, JLabel timeToGoLabel) {
+            JLabel timePassedLabel, JLabel songDurationLabel) {
         this.playPauseStopButton = playPauseStopButton;
         this.songProgressBar = songProgressBar;
         this.timePassedLabel = timePassedLabel;
-        this.timeToGoLabel = timeToGoLabel;
+        this.songDurationLabel = songDurationLabel;
         this.loadAssets();
     }
 
@@ -67,6 +67,10 @@ public class ControlsObserver implements PropertyChangeListener {
                 // Insert some formatting solution
                 this.timePassedLabel.setText(String.valueOf(newProgress));
                 break;
+            case ObservablePropertyNames.SONGDURATION:
+                int newDuration = (int) evt.getNewValue();
+                // Insert some formatting solution
+                this.songDurationLabel.setText(String.valueOf(newDuration));
             default:
                 break;
         }

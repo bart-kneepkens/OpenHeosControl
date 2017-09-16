@@ -434,7 +434,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="songProgressBar" min="-2" pref="184" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="timeToGoLabel" min="-2" max="-2" attributes="0"/>
+                          <Component id="songDurationLabel" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -453,7 +453,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="songProgressBar" min="-2" max="-2" attributes="0"/>
                       <Component id="timePassedLabel" min="-2" max="-2" attributes="0"/>
-                      <Component id="timeToGoLabel" min="-2" max="-2" attributes="0"/>
+                      <Component id="songDurationLabel" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -504,7 +504,7 @@
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="playPauseStopButtonMouseClicked"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JLabel" name="timeToGoLabel">
+        <Component class="javax.swing.JLabel" name="songDurationLabel">
           <Properties>
             <Property name="text" type="java.lang.String" value="4:20"/>
           </Properties>

@@ -43,7 +43,7 @@ public class MainV02 extends javax.swing.JFrame {
         this.viewModel.changes.addPropertyChangeListener(ObservablePropertyNames.VOLUME, vol);
         
         ControlsObserver ctl = new ControlsObserver(this.playPauseStopButton, 
-                this.songProgressBar, this.timePassedLabel, this.timeToGoLabel);
+                this.songProgressBar, this.timePassedLabel, this.songDurationLabel);
         
         this.viewModel.changes.addPropertyChangeListener(ObservablePropertyNames.PLAYSTATE, ctl);
         this.viewModel.changes.addPropertyChangeListener(ObservablePropertyNames.SONGPROGRESS, ctl);
@@ -83,7 +83,7 @@ public class MainV02 extends javax.swing.JFrame {
         nextMediaButton = new javax.swing.JButton();
         songProgressBar = new javax.swing.JProgressBar();
         playPauseStopButton = new javax.swing.JButton();
-        timeToGoLabel = new javax.swing.JLabel();
+        songDurationLabel = new javax.swing.JLabel();
         volumePanel = new javax.swing.JPanel();
         volumeSlider = new javax.swing.JSlider();
         jButton2 = new javax.swing.JButton();
@@ -307,7 +307,7 @@ public class MainV02 extends javax.swing.JFrame {
             }
         });
 
-        timeToGoLabel.setText("4:20");
+        songDurationLabel.setText("4:20");
 
         javax.swing.GroupLayout controlsPanelLayout = new javax.swing.GroupLayout(controlsPanel);
         controlsPanel.setLayout(controlsPanelLayout);
@@ -328,7 +328,7 @@ public class MainV02 extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(songProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(timeToGoLabel))))
+                        .addComponent(songDurationLabel))))
         );
         controlsPanelLayout.setVerticalGroup(
             controlsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -342,7 +342,7 @@ public class MainV02 extends javax.swing.JFrame {
                 .addGroup(controlsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(songProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(timePassedLabel)
-                    .addComponent(timeToGoLabel))
+                    .addComponent(songDurationLabel))
                 .addContainerGap())
         );
 
@@ -455,18 +455,6 @@ public class MainV02 extends javax.swing.JFrame {
         this.viewModel.setSongProgress(88);
     }//GEN-LAST:event_playPauseStopButtonMouseClicked
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MainV02().setVisible(true);
-            }
-        });
-    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel albumNameLabel;
     private javax.swing.JPanel albumPanel;
@@ -493,11 +481,11 @@ public class MainV02 extends javax.swing.JFrame {
     private javax.swing.JButton searchButton;
     private javax.swing.JTextField searchMediaTextField;
     private javax.swing.JPanel searchPanel;
+    private javax.swing.JLabel songDurationLabel;
     private javax.swing.JLabel songNameLabel;
     private javax.swing.JPanel songPanel;
     private javax.swing.JProgressBar songProgressBar;
     private javax.swing.JLabel timePassedLabel;
-    private javax.swing.JLabel timeToGoLabel;
     private javax.swing.JLabel volumeLabel;
     private javax.swing.JPanel volumePanel;
     private javax.swing.JSlider volumeSlider;
