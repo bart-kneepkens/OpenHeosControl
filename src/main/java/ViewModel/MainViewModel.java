@@ -18,6 +18,7 @@ package ViewModel;
 
 import Gui.Observers.ObservablePropertyNames;
 import PlayerCommands.Player;
+import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 /**
@@ -25,7 +26,7 @@ import java.beans.PropertyChangeSupport;
  * @author bartkneepkens
  */
 public class MainViewModel {
-    public PropertyChangeSupport changes = new PropertyChangeSupport(this);
+    private PropertyChangeSupport changes = new PropertyChangeSupport(this);
     private int volume;
     
     private String state;
@@ -38,6 +39,10 @@ public class MainViewModel {
     
     public MainViewModel() {
         
+    }
+    
+    public void addObserverForProperty(String propertyName, PropertyChangeListener listener) {
+        changes.addPropertyChangeListener(propertyName, listener);
     }
     
     
@@ -67,12 +72,7 @@ public class MainViewModel {
         changes.firePropertyChange(ObservablePropertyNames.SONGDURATION, oldDuration, duration);
     }
     
-    public void setMediaImage(String url) {
-        // Load image somehow
-        // Should I load the image from URL in the observer itself or here?
-        // Image Object in ViewModel because View should be dumb.
-        // But... the VM should also be UI independent.
-        
+    public void setMediaImage(String url) {        
         String oldURl = this.mediaImageUrl;
         this.mediaImageUrl = url;
         changes.firePropertyChange(ObservablePropertyNames.SONGIMAGE, oldURl, url);

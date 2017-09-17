@@ -41,30 +41,21 @@ public class MainV02 extends javax.swing.JFrame {
     public MainV02() {
         initComponents();
         this.viewModel = new MainViewModel();
-
         this.configureObservers();
-
     }
 
-    // Move this stuff to ViewModel init, dependency inject self
     private void configureObservers() {
-        VolumeObserver vol = new VolumeObserver(this.volumeSlider, this.volumeLabel);
-
-        this.viewModel.changes.addPropertyChangeListener(ObservablePropertyNames.VOLUME, vol);
-
-        ControlsObserver ctl = new ControlsObserver(this.playPauseStopButton,
+        VolumeObserver volumeObserver = new VolumeObserver(this.volumeSlider, this.volumeLabel);
+        ControlsObserver controlsObserver = new ControlsObserver(this.playPauseStopButton,
                 this.songProgressBar, this.timePassedLabel, this.songDurationLabel);
-
-        this.viewModel.changes.addPropertyChangeListener(ObservablePropertyNames.PLAYSTATE, ctl);
-        this.viewModel.changes.addPropertyChangeListener(ObservablePropertyNames.SONGPROGRESS, ctl);
+        PlayersObserver playersObserver = new PlayersObserver(this.playersList);
+        MediaObserver mediaObserver = new MediaObserver(this.mediaImageView, this.songNameLabel, this.artistNameLabel, this.albumNameLabel);
         
-        PlayersObserver pl = new PlayersObserver(this.playersList);
-        
-        this.viewModel.changes.addPropertyChangeListener(ObservablePropertyNames.PLAYERS, pl);
-        
-        MediaObserver me = new MediaObserver(this.mediaImageView, this.songNameLabel, this.artistNameLabel, this.albumNameLabel);
-        
-        this.viewModel.changes.addPropertyChangeListener(ObservablePropertyNames.SONGIMAGE, me);
+        this.viewModel.addObserverForProperty(ObservablePropertyNames.VOLUME, volumeObserver);
+        this.viewModel.addObserverForProperty(ObservablePropertyNames.PLAYSTATE, controlsObserver);
+        this.viewModel.addObserverForProperty(ObservablePropertyNames.SONGPROGRESS, controlsObserver);
+        this.viewModel.addObserverForProperty(ObservablePropertyNames.PLAYERS, playersObserver);
+        this.viewModel.addObserverForProperty(ObservablePropertyNames.SONGIMAGE, mediaObserver);
     }
 
     /**
@@ -471,10 +462,10 @@ public class MainV02 extends javax.swing.JFrame {
         this.viewModel.setVolume(88);
         this.viewModel.setPlayState(PlayStates.PAUSE);
         this.viewModel.setSongProgress(88);
-        this.viewModel.setPlayers(new Player[] {new Player("Keuken"), new Player("Kantoor")});
-        
+        this.viewModel.setPlayers(new Player[]{new Player("Keuken"), new Player("Kantoor")});
+
         this.viewModel.setMediaImage("https://pbs.twimg.com/profile_images/426420605945004032/K85ZWV2F_400x400.png");
-        
+
     }//GEN-LAST:event_playPauseStopButtonMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
