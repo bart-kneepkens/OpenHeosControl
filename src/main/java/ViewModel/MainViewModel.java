@@ -17,6 +17,7 @@
 package ViewModel;
 
 import Gui.Observers.ObservablePropertyNames;
+import PlayerCommands.Player;
 import java.beans.PropertyChangeSupport;
 
 /**
@@ -33,11 +34,15 @@ public class MainViewModel {
     
     private String mediaImageUrl;
     
+    private Player[] players;
     
     public MainViewModel() {
         
     }
     
+    
+    // MAKE these setters private.
+    // Public for now, for testing purposes.
     public void setVolume(int volume) {
         int oldVolume = this.volume;
         this.volume = volume;
@@ -71,6 +76,12 @@ public class MainViewModel {
         String oldURl = this.mediaImageUrl;
         this.mediaImageUrl = url;
         changes.firePropertyChange(ObservablePropertyNames.SONGIMAGE, oldURl, url);
+    }
+    
+    public void setPlayers(Player[] players) {
+        Player[] oldPlayers = this.players;
+        this.players = players;
+        changes.firePropertyChange(ObservablePropertyNames.PLAYERS, oldPlayers, players);
     }
 
 }

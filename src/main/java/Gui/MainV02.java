@@ -19,9 +19,12 @@ package Gui;
 import Constants.Assets;
 import Constants.PlayStates;
 import Gui.Observers.ControlsObserver;
+import Gui.Observers.MediaObserver;
 import Gui.Observers.ObservablePropertyNames;
+import Gui.Observers.PlayersObserver;
 import ViewModel.MainViewModel;
 import Gui.Observers.VolumeObserver;
+import PlayerCommands.Player;
 import javax.swing.ImageIcon;
 
 /**
@@ -29,6 +32,7 @@ import javax.swing.ImageIcon;
  * @author bartkneepkens
  */
 public class MainV02 extends javax.swing.JFrame {
+
     private MainViewModel viewModel;
 
     /**
@@ -37,16 +41,30 @@ public class MainV02 extends javax.swing.JFrame {
     public MainV02() {
         initComponents();
         this.viewModel = new MainViewModel();
-        
+
+        this.configureObservers();
+
+    }
+
+    // Move this stuff to ViewModel init, dependency inject self
+    private void configureObservers() {
         VolumeObserver vol = new VolumeObserver(this.volumeSlider, this.volumeLabel);
 
         this.viewModel.changes.addPropertyChangeListener(ObservablePropertyNames.VOLUME, vol);
-        
-        ControlsObserver ctl = new ControlsObserver(this.playPauseStopButton, 
+
+        ControlsObserver ctl = new ControlsObserver(this.playPauseStopButton,
                 this.songProgressBar, this.timePassedLabel, this.songDurationLabel);
-        
+
         this.viewModel.changes.addPropertyChangeListener(ObservablePropertyNames.PLAYSTATE, ctl);
         this.viewModel.changes.addPropertyChangeListener(ObservablePropertyNames.SONGPROGRESS, ctl);
+        
+        PlayersObserver pl = new PlayersObserver(this.playersList);
+        
+        this.viewModel.changes.addPropertyChangeListener(ObservablePropertyNames.PLAYERS, pl);
+        
+        MediaObserver me = new MediaObserver(this.mediaImageView, this.songNameLabel, this.artistNameLabel, this.albumNameLabel);
+        
+        this.viewModel.changes.addPropertyChangeListener(ObservablePropertyNames.SONGIMAGE, me);
     }
 
     /**
@@ -453,6 +471,10 @@ public class MainV02 extends javax.swing.JFrame {
         this.viewModel.setVolume(88);
         this.viewModel.setPlayState(PlayStates.PAUSE);
         this.viewModel.setSongProgress(88);
+        this.viewModel.setPlayers(new Player[] {new Player("Keuken"), new Player("Kantoor")});
+        
+        this.viewModel.setMediaImage("https://pbs.twimg.com/profile_images/426420605945004032/K85ZWV2F_400x400.png");
+        
     }//GEN-LAST:event_playPauseStopButtonMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

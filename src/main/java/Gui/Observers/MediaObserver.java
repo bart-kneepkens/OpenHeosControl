@@ -16,8 +16,16 @@
  */
 package Gui.Observers;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
@@ -27,10 +35,17 @@ import javax.swing.JLabel;
  */
 public class MediaObserver implements PropertyChangeListener {
 
-    private JLabel imageLabel;
-    private JLabel songNameLabel;
-    private JLabel artistNameLabel;
-    private JLabel albumNameLabel;
+    private final JLabel imageLabel;
+    private final JLabel songNameLabel;
+    private final JLabel artistNameLabel;
+    private final JLabel albumNameLabel;
+
+    public MediaObserver(JLabel imageLabel, JLabel songNameLabel, JLabel artistNameLabel, JLabel albumNameLabel) {
+        this.imageLabel = imageLabel;
+        this.songNameLabel = songNameLabel;
+        this.artistNameLabel = artistNameLabel;
+        this.albumNameLabel = albumNameLabel;
+    }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
@@ -53,13 +68,22 @@ public class MediaObserver implements PropertyChangeListener {
         }
     }
     
-    private ImageIcon aSyncLoadImageFromURLIntoLabel(String url, JLabel label) {
+    private void aSyncLoadImageFromURLIntoLabel(final String url, final JLabel label) {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                try {
+                    URL l = new URL(url);
+                    BufferedImage img = ImageIO.read(l);
+                    Image scaledImage = img.getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_SMOOTH);
+                    ImageIcon icon = new ImageIcon(scaledImage);
+                    label.setIcon(icon);
+                } catch (MalformedURLException ex) {
+                    Logger.getLogger(MediaObserver.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(MediaObserver.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }).start();
-        return null;
     }
 }

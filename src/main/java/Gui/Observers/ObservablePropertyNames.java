@@ -31,4 +31,6 @@ public class ObservablePropertyNames {
     public static final String SONGTITLE = "songtitle";
     public static final String ARTIST = "artist";
     public static final String ALBUMTITLE = "albumtitle";
+    
+    public static final String PLAYERS = "players";
 }

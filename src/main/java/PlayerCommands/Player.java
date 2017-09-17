@@ -49,6 +49,14 @@ public class Player {
             this.gid = (Double) map.get("gid");
         }
     }
+
+    public Player(String name) {
+        this.name = name;
+        this.pid = "";
+        this.model = "";
+        this.version = "";
+        this.gid = 0.0;
+    }
     
     public String getName(){
         return name;
