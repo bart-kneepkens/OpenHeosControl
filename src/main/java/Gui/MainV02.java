@@ -16,7 +16,6 @@
  */
 package Gui;
 
-import Constants.Assets;
 import Constants.PlayStates;
 import Gui.Observers.ControlsObserver;
 import Gui.Observers.MediaObserver;
@@ -25,7 +24,6 @@ import Gui.Observers.PlayersObserver;
 import ViewModel.MainViewModel;
 import Gui.Observers.VolumeObserver;
 import PlayerCommands.Player;
-import javax.swing.ImageIcon;
 
 /**
  *
@@ -52,10 +50,16 @@ public class MainV02 extends javax.swing.JFrame {
         MediaObserver mediaObserver = new MediaObserver(this.mediaImageView, this.songNameLabel, this.artistNameLabel, this.albumNameLabel);
         
         this.viewModel.addObserverForProperty(ObservablePropertyNames.VOLUME, volumeObserver);
+        
         this.viewModel.addObserverForProperty(ObservablePropertyNames.PLAYSTATE, controlsObserver);
         this.viewModel.addObserverForProperty(ObservablePropertyNames.SONGPROGRESS, controlsObserver);
+        this.viewModel.addObserverForProperty(ObservablePropertyNames.SONGDURATION, controlsObserver);
+        
         this.viewModel.addObserverForProperty(ObservablePropertyNames.PLAYERS, playersObserver);
-        this.viewModel.addObserverForProperty(ObservablePropertyNames.SONGIMAGE, mediaObserver);
+        
+        this.viewModel.addObserverForProperty(ObservablePropertyNames.SONGTITLE, mediaObserver);
+        this.viewModel.addObserverForProperty(ObservablePropertyNames.ALBUMTITLE, mediaObserver);
+        this.viewModel.addObserverForProperty(ObservablePropertyNames.ARTIST, mediaObserver);
     }
 
     /**
@@ -195,9 +199,11 @@ public class MainV02 extends javax.swing.JFrame {
             .addGroup(artistPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(artistPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(artistNameLabel))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(artistPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(artistNameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         artistPanelLayout.setVerticalGroup(
             artistPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -221,9 +227,11 @@ public class MainV02 extends javax.swing.JFrame {
             .addGroup(songPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(songPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(songNameLabel))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(songPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addGap(0, 191, Short.MAX_VALUE))
+                    .addComponent(songNameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE))
+                .addContainerGap())
         );
         songPanelLayout.setVerticalGroup(
             songPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -247,9 +255,11 @@ public class MainV02 extends javax.swing.JFrame {
             .addGroup(albumPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(albumPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6)
-                    .addComponent(albumNameLabel))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(albumPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(albumNameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         albumPanelLayout.setVerticalGroup(
             albumPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -462,9 +472,13 @@ public class MainV02 extends javax.swing.JFrame {
         this.viewModel.setVolume(88);
         this.viewModel.setPlayState(PlayStates.PAUSE);
         this.viewModel.setSongProgress(88);
+        this.viewModel.setSongDuration(188);
         this.viewModel.setPlayers(new Player[]{new Player("Keuken"), new Player("Kantoor")});
 
         this.viewModel.setMediaImage("https://pbs.twimg.com/profile_images/426420605945004032/K85ZWV2F_400x400.png");
+        this.viewModel.setSongTitle("Antidote");
+        this.viewModel.setArtist("Travis Scott");
+        this.viewModel.setAlbumTitle("Rodeo (Deluxe)");
 
     }//GEN-LAST:event_playPauseStopButtonMouseClicked
 

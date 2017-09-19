@@ -34,6 +34,9 @@ public class MainViewModel {
     private int songDuration;
     
     private String mediaImageUrl;
+    private String artist;
+    private String songTitle;
+    private String albumTitle;
     
     private Player[] players;
     
@@ -44,7 +47,6 @@ public class MainViewModel {
     public void addObserverForProperty(String propertyName, PropertyChangeListener listener) {
         changes.addPropertyChangeListener(propertyName, listener);
     }
-    
     
     // MAKE these setters private.
     // Public for now, for testing purposes.
@@ -76,6 +78,24 @@ public class MainViewModel {
         String oldURl = this.mediaImageUrl;
         this.mediaImageUrl = url;
         changes.firePropertyChange(ObservablePropertyNames.SONGIMAGE, oldURl, url);
+    }
+    
+    public void setSongTitle(String title) {
+        String oldTitle = this.songTitle;
+        this.songTitle = title;
+        changes.firePropertyChange(ObservablePropertyNames.SONGTITLE, oldTitle, title);
+    }
+    
+    public void setArtist(String artist) {
+        String oldArtist = this.artist;
+        this.artist = artist;
+        changes.firePropertyChange(ObservablePropertyNames.ARTIST, oldArtist, artist);
+    }
+    
+    public void setAlbumTitle(String title) {
+        String oldTitle = this.albumTitle;
+        this.albumTitle = title;
+        changes.firePropertyChange(ObservablePropertyNames.ALBUMTITLE, oldTitle, title);
     }
     
     public void setPlayers(Player[] players) {

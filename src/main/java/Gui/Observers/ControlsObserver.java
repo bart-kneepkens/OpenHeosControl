@@ -64,13 +64,14 @@ public class ControlsObserver implements PropertyChangeListener {
             case ObservablePropertyNames.SONGPROGRESS:
                 int newProgress = (int) evt.getNewValue();
                 this.songProgressBar.setValue(newProgress);
-                // Insert some formatting solution
-                this.timePassedLabel.setText(String.valueOf(newProgress));
+                String formattedProgress = this.formattedTime(newProgress);
+                this.timePassedLabel.setText(formattedProgress);
                 break;
             case ObservablePropertyNames.SONGDURATION:
                 int newDuration = (int) evt.getNewValue();
-                // Insert some formatting solution
-                this.songDurationLabel.setText(String.valueOf(newDuration));
+                this.songProgressBar.setMaximum(newDuration);
+                String formattedDuration = this.formattedTime(newDuration);
+                this.songDurationLabel.setText(formattedDuration);
             default:
                 break;
         }
@@ -102,5 +103,9 @@ public class ControlsObserver implements PropertyChangeListener {
         this.pauseIconPressed = new ImageIcon(getClass().getResource(Assets.PAUSE_PRESSED));
         this.stopIcon = new ImageIcon(getClass().getResource(Assets.STOP));
         this.stopIconPressed = new ImageIcon(getClass().getResource(Assets.STOP_PRESSED));
+    }
+    
+    private String formattedTime(int seconds) {
+        return String.format("%02d:%02d", seconds / 60, seconds % 60);
     }
 }
