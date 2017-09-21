@@ -32,15 +32,10 @@ public class MainViewModel {
     
     private String state;
     private int songProgress;
-    private int songDuration;
-    
-    private String mediaImageUrl;
-    private String artist;
-    private String songTitle;
-    private String albumTitle;
     
     private Player[] players;
     
+    private Song nowPlaying;
     private Song[] queue;
     
     public MainViewModel() {
@@ -71,36 +66,6 @@ public class MainViewModel {
         changes.firePropertyChange(ObservablePropertyNames.SONGPROGRESS, oldProgress, progress);
     }
     
-    public void setSongDuration(int duration) {
-        int oldDuration = this.songDuration;
-        this.songDuration = duration;
-        changes.firePropertyChange(ObservablePropertyNames.SONGDURATION, oldDuration, duration);
-    }
-    
-    public void setMediaImage(String url) {        
-        String oldURl = this.mediaImageUrl;
-        this.mediaImageUrl = url;
-        changes.firePropertyChange(ObservablePropertyNames.SONGIMAGE, oldURl, url);
-    }
-    
-    public void setSongTitle(String title) {
-        String oldTitle = this.songTitle;
-        this.songTitle = title;
-        changes.firePropertyChange(ObservablePropertyNames.SONGTITLE, oldTitle, title);
-    }
-    
-    public void setArtist(String artist) {
-        String oldArtist = this.artist;
-        this.artist = artist;
-        changes.firePropertyChange(ObservablePropertyNames.ARTIST, oldArtist, artist);
-    }
-    
-    public void setAlbumTitle(String title) {
-        String oldTitle = this.albumTitle;
-        this.albumTitle = title;
-        changes.firePropertyChange(ObservablePropertyNames.ALBUMTITLE, oldTitle, title);
-    }
-    
     public void setPlayers(Player[] players) {
         Player[] oldPlayers = this.players;
         this.players = players;
@@ -111,6 +76,12 @@ public class MainViewModel {
         Song[] oldQueue = this.queue;
         this.queue = queue;
         changes.firePropertyChange(ObservablePropertyNames.QUEUE, oldQueue, queue);
+    }
+    
+    public void setNowPlaying(Song song) {
+        Song oldSong = this.nowPlaying;
+        this.nowPlaying = song;
+        changes.firePropertyChange(ObservablePropertyNames.NOWPLAYING, oldSong, song);
     }
 
 }

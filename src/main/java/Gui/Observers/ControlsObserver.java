@@ -18,6 +18,7 @@ package Gui.Observers;
 
 import Constants.Assets;
 import Constants.PlayStates;
+import SystemCommands.Song;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javax.swing.ImageIcon;
@@ -67,8 +68,8 @@ public class ControlsObserver implements PropertyChangeListener {
                 String formattedProgress = this.formattedTime(newProgress);
                 this.timePassedLabel.setText(formattedProgress);
                 break;
-            case ObservablePropertyNames.SONGDURATION:
-                int newDuration = (int) evt.getNewValue();
+            case ObservablePropertyNames.NOWPLAYING:
+                int newDuration = ((Song) evt.getNewValue()).getDuration();
                 this.songProgressBar.setMaximum(newDuration);
                 String formattedDuration = this.formattedTime(newDuration);
                 this.songDurationLabel.setText(formattedDuration);
@@ -104,7 +105,7 @@ public class ControlsObserver implements PropertyChangeListener {
         this.stopIcon = new ImageIcon(getClass().getResource(Assets.STOP));
         this.stopIconPressed = new ImageIcon(getClass().getResource(Assets.STOP_PRESSED));
     }
-    
+
     private String formattedTime(int seconds) {
         return String.format("%02d:%02d", seconds / 60, seconds % 60);
     }

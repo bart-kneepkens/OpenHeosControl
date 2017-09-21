@@ -16,6 +16,7 @@
  */
 package Gui.Observers;
 
+import SystemCommands.Song;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
@@ -49,23 +50,11 @@ public class MediaObserver implements PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        String changedPropertyName = evt.getPropertyName();
-
-        switch (changedPropertyName) {
-            case ObservablePropertyNames.SONGIMAGE:
-                this.aSyncLoadImageFromURLIntoLabel((String) evt.getNewValue(), imageLabel);
-                break;
-            case ObservablePropertyNames.SONGTITLE:
-                this.songNameLabel.setText((String) evt.getNewValue());
-                break;
-            case ObservablePropertyNames.ARTIST:
-                this.artistNameLabel.setText((String) evt.getNewValue());
-                break;
-            case ObservablePropertyNames.ALBUMTITLE:
-                this.albumNameLabel.setText((String) evt.getNewValue());
-                break;
-            default: break;
-        }
+        Song newValue = (Song) evt.getNewValue();
+        this.aSyncLoadImageFromURLIntoLabel(newValue.getMediaURL(), imageLabel);
+          this.songNameLabel.setText(newValue.getTitle());
+          this.artistNameLabel.setText(newValue.getArtist());
+          this.albumNameLabel.setText(newValue.getAlbum());
     }
     
     private void aSyncLoadImageFromURLIntoLabel(final String url, final JLabel label) {

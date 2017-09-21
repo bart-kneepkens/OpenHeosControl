@@ -56,14 +56,16 @@ public class MainV02 extends javax.swing.JFrame {
         
         this.viewModel.addObserverForProperty(ObservablePropertyNames.PLAYSTATE, controlsObserver);
         this.viewModel.addObserverForProperty(ObservablePropertyNames.SONGPROGRESS, controlsObserver);
-        this.viewModel.addObserverForProperty(ObservablePropertyNames.SONGDURATION, controlsObserver);
+//        this.viewModel.addObserverForProperty(ObservablePropertyNames.SONGDURATION, controlsObserver);
+        this.viewModel.addObserverForProperty(ObservablePropertyNames.NOWPLAYING, controlsObserver);
         
         this.viewModel.addObserverForProperty(ObservablePropertyNames.PLAYERS, playersObserver);
         
-        this.viewModel.addObserverForProperty(ObservablePropertyNames.SONGTITLE, mediaObserver);
-        this.viewModel.addObserverForProperty(ObservablePropertyNames.ALBUMTITLE, mediaObserver);
-        this.viewModel.addObserverForProperty(ObservablePropertyNames.ARTIST, mediaObserver);
-        this.viewModel.addObserverForProperty(ObservablePropertyNames.SONGIMAGE, mediaObserver);
+//        this.viewModel.addObserverForProperty(ObservablePropertyNames.SONGTITLE, mediaObserver);
+//        this.viewModel.addObserverForProperty(ObservablePropertyNames.ALBUMTITLE, mediaObserver);
+//        this.viewModel.addObserverForProperty(ObservablePropertyNames.ARTIST, mediaObserver);
+//        this.viewModel.addObserverForProperty(ObservablePropertyNames.SONGIMAGE, mediaObserver);
+         this.viewModel.addObserverForProperty(ObservablePropertyNames.NOWPLAYING, mediaObserver);
         
         this.viewModel.addObserverForProperty(ObservablePropertyNames.QUEUE, queueObserver);
     }
@@ -443,13 +445,10 @@ public class MainV02 extends javax.swing.JFrame {
         this.viewModel.setVolume(88);
         this.viewModel.setPlayState(PlayStates.PAUSE);
         this.viewModel.setSongProgress(88);
-        this.viewModel.setSongDuration(188);
+//        this.viewModel.setSongDuration(188);
         this.viewModel.setPlayers(new Player[]{new Player("Keuken"), new Player("Kantoor")});
 
-        this.viewModel.setMediaImage("https://sslg.ulximg.com/image/355x355/cover/1408548992_f86acabb734b084285b46eb19b571c40.jpg/e359eac435751015388f20f9c9e9d36a/1408548992_travi_scott_days_before_rodeo_front_large_98.jpg");
-        this.viewModel.setSongTitle("Antidote");
-        this.viewModel.setArtist("Travis Scott");
-        this.viewModel.setAlbumTitle("Rodeo (Deluxe)");
+        this.viewModel.setNowPlaying(new Song("Antidoteyy", "Travis Scott", "Rodeo (Deluxe)", "", "https://sslg.ulximg.com/image/355x355/cover/1408548992_f86acabb734b084285b46eb19b571c40.jpg/e359eac435751015388f20f9c9e9d36a/1408548992_travi_scott_days_before_rodeo_front_large_98.jpg", 188));
 
         this.viewModel.setQueue(new Song[]{new Song("Mama (Just killed a man)")});
     }//GEN-LAST:event_playPauseStopButtonMouseClicked
