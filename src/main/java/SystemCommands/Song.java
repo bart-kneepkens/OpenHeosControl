@@ -14,25 +14,33 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package Gui.Observers;
+package SystemCommands;
 
 /**
  *
  * @author bartkneepkens
  */
-public class ObservablePropertyNames {
-    public static final String VOLUME = "volume";
+public class Song {
+    private final String title;
+    private final String artist;
+    private final String album;
+    private final String url;
+
+    public Song(String title, String artist, String album, String url) {
+        this.title = title;
+        this.artist = artist;
+        this.album = album;
+        this.url = url;
+    }
     
-    public static final String PLAYSTATE = "playstate";
-    public static final String SONGPROGRESS = "songprogress";
-    public static final String SONGDURATION = "songduration";
+    public Song(String title){
+        this.title = title;
+        this.artist = "";
+        this.album = "";
+        this.url = "";
+    }
     
-    public static final String SONGIMAGE = "songimage";
-    public static final String SONGTITLE = "songtitle";
-    public static final String ARTIST = "artist";
-    public static final String ALBUMTITLE = "albumtitle";
-    
-    public static final String PLAYERS = "players";
-    
-    public static final String QUEUE = "queue";
+    public String getTitle(){
+        return this.title;
+    }
 }

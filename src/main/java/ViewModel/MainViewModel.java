@@ -18,6 +18,7 @@ package ViewModel;
 
 import Gui.Observers.ObservablePropertyNames;
 import PlayerCommands.Player;
+import SystemCommands.Song;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
@@ -39,6 +40,8 @@ public class MainViewModel {
     private String albumTitle;
     
     private Player[] players;
+    
+    private Song[] queue;
     
     public MainViewModel() {
         
@@ -102,6 +105,12 @@ public class MainViewModel {
         Player[] oldPlayers = this.players;
         this.players = players;
         changes.firePropertyChange(ObservablePropertyNames.PLAYERS, oldPlayers, players);
+    }
+    
+    public void setQueue(Song[] queue) {
+        Song[] oldQueue = this.queue;
+        this.queue = queue;
+        changes.firePropertyChange(ObservablePropertyNames.QUEUE, oldQueue, queue);
     }
 
 }

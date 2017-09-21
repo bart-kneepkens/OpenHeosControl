@@ -21,9 +21,11 @@ import Gui.Observers.ControlsObserver;
 import Gui.Observers.MediaObserver;
 import Gui.Observers.ObservablePropertyNames;
 import Gui.Observers.PlayersObserver;
+import Gui.Observers.QueueObserver;
 import ViewModel.MainViewModel;
 import Gui.Observers.VolumeObserver;
 import PlayerCommands.Player;
+import SystemCommands.Song;
 
 /**
  *
@@ -48,6 +50,7 @@ public class MainV02 extends javax.swing.JFrame {
                 this.songProgressBar, this.timePassedLabel, this.songDurationLabel);
         PlayersObserver playersObserver = new PlayersObserver(this.playersComboBox);
         MediaObserver mediaObserver = new MediaObserver(this.mediaImageView, this.songNameLabel, this.artistNameLabel, this.albumNameLabel);
+        QueueObserver queueObserver = new QueueObserver(this.queueList);
         
         this.viewModel.addObserverForProperty(ObservablePropertyNames.VOLUME, volumeObserver);
         
@@ -61,6 +64,8 @@ public class MainV02 extends javax.swing.JFrame {
         this.viewModel.addObserverForProperty(ObservablePropertyNames.ALBUMTITLE, mediaObserver);
         this.viewModel.addObserverForProperty(ObservablePropertyNames.ARTIST, mediaObserver);
         this.viewModel.addObserverForProperty(ObservablePropertyNames.SONGIMAGE, mediaObserver);
+        
+        this.viewModel.addObserverForProperty(ObservablePropertyNames.QUEUE, queueObserver);
     }
 
     /**
@@ -446,6 +451,7 @@ public class MainV02 extends javax.swing.JFrame {
         this.viewModel.setArtist("Travis Scott");
         this.viewModel.setAlbumTitle("Rodeo (Deluxe)");
 
+        this.viewModel.setQueue(new Song[]{new Song("Mama (Just killed a man)")});
     }//GEN-LAST:event_playPauseStopButtonMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
