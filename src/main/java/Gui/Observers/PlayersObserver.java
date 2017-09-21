@@ -17,13 +17,10 @@
 package Gui.Observers;
 
 import PlayerCommands.Player;
-import SystemCommands.HeosSystem;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import javax.swing.AbstractListModel;
-import javax.swing.JList;
-import javax.swing.ListModel;
-import javax.swing.event.ListDataListener;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 
 /**
  *
@@ -31,29 +28,27 @@ import javax.swing.event.ListDataListener;
  */
 public class PlayersObserver implements PropertyChangeListener {
     
-    private JList playersList;
+    private JComboBox playersComboBox;
     
-    public PlayersObserver(JList playersList) {
-        this.playersList = playersList;
+    public PlayersObserver(JComboBox playersComboBox) {
+        this.playersComboBox = playersComboBox;
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         Player[] newPlayers = (Player[]) evt.getNewValue();
-        this.updateListWithItems(newPlayers, playersList);
+        this.updateComboBoxWithItems(newPlayers, playersComboBox);
     }
     
-    private void updateListWithItems(final Player[] players, JList playersList) {
-        playersList.setModel(new AbstractListModel() {
-            @Override
-            public int getSize() {
-                return players.length;
-            }
-            @Override
-            public Object getElementAt(int index) {
-                return players[index].getName();
-            }
-        });
+    private void updateComboBoxWithItems(final Player[] players, JComboBox playersComboBox) {        
+        DefaultComboBoxModel model = new DefaultComboBoxModel();
+        
+        // Change this to a stream when the internet works!
+        for (Player player : players) {
+            model.addElement(player.getName());
+        }
+        
+        playersComboBox.setModel(model);
     }
     
 }
