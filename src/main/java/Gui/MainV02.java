@@ -26,6 +26,7 @@ import ViewModel.MainViewModel;
 import Gui.Observers.VolumeObserver;
 import PlayerCommands.Player;
 import SystemCommands.Song;
+import java.awt.event.ItemEvent;
 
 /**
  *
@@ -42,6 +43,7 @@ public class MainV02 extends javax.swing.JFrame {
         initComponents();
         this.viewModel = new MainViewModel();
         this.configureObservers();
+        this.viewModel.postInit();
     }
 
     private void configureObservers() {
@@ -51,22 +53,16 @@ public class MainV02 extends javax.swing.JFrame {
         PlayersObserver playersObserver = new PlayersObserver(this.playersComboBox);
         MediaObserver mediaObserver = new MediaObserver(this.mediaImageView, this.songNameLabel, this.artistNameLabel, this.albumNameLabel);
         QueueObserver queueObserver = new QueueObserver(this.queueList);
-        
+
         this.viewModel.addObserverForProperty(ObservablePropertyNames.VOLUME, volumeObserver);
-        
+
         this.viewModel.addObserverForProperty(ObservablePropertyNames.PLAYSTATE, controlsObserver);
         this.viewModel.addObserverForProperty(ObservablePropertyNames.SONGPROGRESS, controlsObserver);
-//        this.viewModel.addObserverForProperty(ObservablePropertyNames.SONGDURATION, controlsObserver);
         this.viewModel.addObserverForProperty(ObservablePropertyNames.NOWPLAYING, controlsObserver);
-        
+
         this.viewModel.addObserverForProperty(ObservablePropertyNames.PLAYERS, playersObserver);
-        
-//        this.viewModel.addObserverForProperty(ObservablePropertyNames.SONGTITLE, mediaObserver);
-//        this.viewModel.addObserverForProperty(ObservablePropertyNames.ALBUMTITLE, mediaObserver);
-//        this.viewModel.addObserverForProperty(ObservablePropertyNames.ARTIST, mediaObserver);
-//        this.viewModel.addObserverForProperty(ObservablePropertyNames.SONGIMAGE, mediaObserver);
-         this.viewModel.addObserverForProperty(ObservablePropertyNames.NOWPLAYING, mediaObserver);
-        
+        this.viewModel.addObserverForProperty(ObservablePropertyNames.NOWPLAYING, mediaObserver);
+
         this.viewModel.addObserverForProperty(ObservablePropertyNames.QUEUE, queueObserver);
     }
 
@@ -134,6 +130,7 @@ public class MainV02 extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Media Browser", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Hiragino Kaku Gothic Std", 0, 16))); // NOI18N
 
+        mediaProviderList.setFont(new java.awt.Font("Helvetica Neue", 0, 12)); // NOI18N
         mediaProviderList.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Spotify", "Soundcloud", "Radio" };
             public int getSize() { return strings.length; }
@@ -141,6 +138,7 @@ public class MainV02 extends javax.swing.JFrame {
         });
         jScrollPane3.setViewportView(mediaProviderList);
 
+        mediaBackButton.setFont(new java.awt.Font("Helvetica Neue", 0, 13)); // NOI18N
         mediaBackButton.setText("Back");
 
         searchButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/magnifying-glass-2x.png"))); // NOI18N
@@ -163,6 +161,7 @@ public class MainV02 extends javax.swing.JFrame {
                 .addContainerGap(11, Short.MAX_VALUE))
         );
 
+        mediaBrowserList.setFont(new java.awt.Font("Helvetica Neue", 0, 12)); // NOI18N
         mediaBrowserList.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
@@ -209,19 +208,25 @@ public class MainV02 extends javax.swing.JFrame {
         mediaImageView.setIcon(new javax.swing.ImageIcon(getClass().getResource("/media-pause-6x.png"))); // NOI18N
         mediaImageView.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
+        songNameLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 13)); // NOI18N
         songNameLabel.setText("Pyxis");
 
+        jLabel4.setFont(new java.awt.Font("Helvetica Neue", 0, 13)); // NOI18N
         jLabel4.setForeground(javax.swing.UIManager.getDefaults().getColor("Label.disabledShadow"));
         jLabel4.setText("Song");
 
+        jLabel1.setFont(new java.awt.Font("Helvetica Neue", 0, 13)); // NOI18N
         jLabel1.setForeground(javax.swing.UIManager.getDefaults().getColor("Label.disabledShadow"));
         jLabel1.setText("Artist");
 
+        artistNameLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 13)); // NOI18N
         artistNameLabel.setText("HOME");
 
+        jLabel6.setFont(new java.awt.Font("Helvetica Neue", 0, 13)); // NOI18N
         jLabel6.setForeground(javax.swing.UIManager.getDefaults().getColor("Label.disabledShadow"));
         jLabel6.setText("Album");
 
+        albumNameLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 13)); // NOI18N
         albumNameLabel.setText("Before The Night");
 
         javax.swing.GroupLayout songPanelLayout = new javax.swing.GroupLayout(songPanel);
@@ -286,6 +291,7 @@ public class MainV02 extends javax.swing.JFrame {
         previousMediaButton.setBorderPainted(false);
         previousMediaButton.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/pressed/media-step-backward-4x.png"))); // NOI18N
 
+        timePassedLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 13)); // NOI18N
         timePassedLabel.setText("0:00");
 
         nextMediaButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/media-step-forward-4x.png"))); // NOI18N
@@ -301,6 +307,7 @@ public class MainV02 extends javax.swing.JFrame {
             }
         });
 
+        songDurationLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 13)); // NOI18N
         songDurationLabel.setText("4:20");
 
         javax.swing.GroupLayout controlsPanelLayout = new javax.swing.GroupLayout(controlsPanel);
@@ -343,13 +350,25 @@ public class MainV02 extends javax.swing.JFrame {
         volumeSlider.setMinorTickSpacing(20);
         volumeSlider.setPaintTicks(true);
         volumeSlider.setValue(0);
+        volumeSlider.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                volumeSliderMouseReleased(evt);
+            }
+        });
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/volume-high-3x.png"))); // NOI18N
         jButton2.setBorderPainted(false);
 
+        volumeLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 13)); // NOI18N
         volumeLabel.setText("100");
 
+        playersComboBox.setFont(new java.awt.Font("Helvetica Neue", 0, 13)); // NOI18N
         playersComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Kitchen", "Living Room" }));
+        playersComboBox.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                playersComboBoxItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout volumePanelLayout = new javax.swing.GroupLayout(volumePanel);
         volumePanel.setLayout(volumePanelLayout);
@@ -386,6 +405,7 @@ public class MainV02 extends javax.swing.JFrame {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Queue", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Hiragino Kaku Gothic Std", 0, 16))); // NOI18N
 
+        queueList.setFont(new java.awt.Font("Helvetica Neue", 0, 12)); // NOI18N
         queueList.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
@@ -442,16 +462,27 @@ public class MainV02 extends javax.swing.JFrame {
 
     private void playPauseStopButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playPauseStopButtonMouseClicked
 
-        this.viewModel.setVolume(88);
-        this.viewModel.setPlayState(PlayStates.PAUSE);
-        this.viewModel.setSongProgress(88);
-//        this.viewModel.setSongDuration(188);
-        this.viewModel.setPlayers(new Player[]{new Player("Keuken"), new Player("Kantoor")});
-
-        this.viewModel.setNowPlaying(new Song("Antidoteyy", "Travis Scott", "Rodeo (Deluxe)", "", "https://sslg.ulximg.com/image/355x355/cover/1408548992_f86acabb734b084285b46eb19b571c40.jpg/e359eac435751015388f20f9c9e9d36a/1408548992_travi_scott_days_before_rodeo_front_large_98.jpg", 188));
-
-        this.viewModel.setQueue(new Song[]{new Song("Mama (Just killed a man)")});
+//        this.viewModel.setVolume(88);
+//        this.viewModel.setPlayState(PlayStates.PAUSE);
+//        this.viewModel.setSongProgress(88);
+////        this.viewModel.setSongDuration(188);
+//        this.viewModel.setPlayers(new Player[]{new Player("Keuken"), new Player("Kantoor")});
+//
+//        this.viewModel.setNowPlaying(new Song("Antidoteyy", "Travis Scott", "Rodeo (Deluxe)", "", "https://sslg.ulximg.com/image/355x355/cover/1408548992_f86acabb734b084285b46eb19b571c40.jpg/e359eac435751015388f20f9c9e9d36a/1408548992_travi_scott_days_before_rodeo_front_large_98.jpg", 188));
+//
+//        this.viewModel.setQueue(new Song[]{new Song("Mama (Just killed a man)")});
     }//GEN-LAST:event_playPauseStopButtonMouseClicked
+
+    private void playersComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_playersComboBoxItemStateChanged
+        if(evt.getStateChange() == ItemEvent.SELECTED) {
+            int index = this.playersComboBox.getSelectedIndex();
+            this.viewModel.changePlayer(index);
+        }
+    }//GEN-LAST:event_playersComboBoxItemStateChanged
+
+    private void volumeSliderMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_volumeSliderMouseReleased
+        this.viewModel.volumeUpdated(this.volumeSlider.getValue());
+    }//GEN-LAST:event_volumeSliderMouseReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel albumNameLabel;

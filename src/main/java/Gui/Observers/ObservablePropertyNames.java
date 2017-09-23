@@ -25,7 +25,6 @@ public class ObservablePropertyNames {
     
     public static final String PLAYSTATE = "playstate";
     public static final String SONGPROGRESS = "songprogress";
-//    public static final String SONGDURATION = "songduration";
    
     public static final String NOWPLAYING = "nowplaying";
     
