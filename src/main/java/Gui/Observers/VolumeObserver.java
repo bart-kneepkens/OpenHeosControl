@@ -18,6 +18,9 @@ package Gui.Observers;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Observable;
+import java.util.Observer;
+import javax.swing.JLabel;
 import javax.swing.JSlider;
 
 /**
@@ -27,15 +30,18 @@ import javax.swing.JSlider;
 public class VolumeObserver implements PropertyChangeListener {
 
     JSlider volumeSlider;
+    JLabel volumeLabel;
 
-    public VolumeObserver(JSlider volumeSlider) {
+    public VolumeObserver(JSlider volumeSlider, JLabel volumeLabel) {
         this.volumeSlider = volumeSlider;
+        this.volumeLabel = volumeLabel;
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         int newValue = (int) evt.getNewValue();
         volumeSlider.setValue(newValue);
+        this.volumeLabel.setText(String.valueOf(newValue));
     }
 
 }
