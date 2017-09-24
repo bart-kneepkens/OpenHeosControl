@@ -41,13 +41,18 @@ public class MainV02 extends javax.swing.JFrame {
      */
     public MainV02() {
         initComponents();
-        this.viewModel = new MainViewModel();
+        setViewModel(new MainViewModel());
+        this.jScrollPane1.setBorder(null);
+    }
+    
+    private void setViewModel(MainViewModel viewModel) {
+        this.viewModel = viewModel;
         this.configureObservers();
         this.viewModel.postInit();
     }
 
     private void configureObservers() {
-        VolumeObserver volumeObserver = new VolumeObserver(this.volumeSlider, this.volumeLabel);
+        VolumeObserver volumeObserver = new VolumeObserver(this.volumeSlider);
         ControlsObserver controlsObserver = new ControlsObserver(this.playPauseStopButton,
                 this.songProgressBar, this.timePassedLabel, this.songDurationLabel);
         PlayersObserver playersObserver = new PlayersObserver(this.playersComboBox);
@@ -74,6 +79,7 @@ public class MainV02 extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         jPanel2 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
@@ -250,7 +256,6 @@ public class MainV02 extends javax.swing.JFrame {
         songPanelLayout.setVerticalGroup(
             songPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(songPanelLayout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(songNameLabel)
@@ -262,7 +267,7 @@ public class MainV02 extends javax.swing.JFrame {
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(albumNameLabel)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 12, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -272,19 +277,17 @@ public class MainV02 extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(mediaImageView, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(songPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(mediaImageView, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(songPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(292, 292, 292))
+                    .addComponent(songPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(298, 298, 298))
         );
 
         previousMediaButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/media-step-backward-4x.png"))); // NOI18N
@@ -360,7 +363,9 @@ public class MainV02 extends javax.swing.JFrame {
         jButton2.setBorderPainted(false);
 
         volumeLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 13)); // NOI18N
-        volumeLabel.setText("100");
+
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, volumeSlider, org.jdesktop.beansbinding.ELProperty.create("${value}"), volumeLabel, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
 
         playersComboBox.setFont(new java.awt.Font("Helvetica Neue", 0, 13)); // NOI18N
         playersComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Kitchen", "Living Room" }));
@@ -381,7 +386,7 @@ public class MainV02 extends javax.swing.JFrame {
                     .addGroup(volumePanelLayout.createSequentialGroup()
                         .addComponent(jButton2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(volumeLabel)
+                        .addComponent(volumeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(volumeSlider, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -405,6 +410,7 @@ public class MainV02 extends javax.swing.JFrame {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Queue", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Hiragino Kaku Gothic Std", 0, 16))); // NOI18N
 
+        queueList.setBackground(new java.awt.Color(238, 238, 238));
         queueList.setFont(new java.awt.Font("Helvetica Neue", 0, 12)); // NOI18N
         queueList.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -457,6 +463,8 @@ public class MainV02 extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        bindingGroup.bind();
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -471,6 +479,8 @@ public class MainV02 extends javax.swing.JFrame {
 //        this.viewModel.setNowPlaying(new Song("Antidoteyy", "Travis Scott", "Rodeo (Deluxe)", "", "https://sslg.ulximg.com/image/355x355/cover/1408548992_f86acabb734b084285b46eb19b571c40.jpg/e359eac435751015388f20f9c9e9d36a/1408548992_travi_scott_days_before_rodeo_front_large_98.jpg", 188));
 //
 //        this.viewModel.setQueue(new Song[]{new Song("Mama (Just killed a man)")});
+
+        
     }//GEN-LAST:event_playPauseStopButtonMouseClicked
 
     private void playersComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_playersComboBoxItemStateChanged
@@ -519,5 +529,6 @@ public class MainV02 extends javax.swing.JFrame {
     private javax.swing.JLabel volumeLabel;
     private javax.swing.JPanel volumePanel;
     private javax.swing.JSlider volumeSlider;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }
