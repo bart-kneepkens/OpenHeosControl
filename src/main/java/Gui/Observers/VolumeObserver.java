@@ -32,9 +32,8 @@ public class VolumeObserver implements PropertyChangeListener {
     JSlider volumeSlider;
     JLabel volumeLabel;
 
-    public VolumeObserver(JSlider volumeSlider, JLabel volumeLabel) {
+    public VolumeObserver(JSlider volumeSlider) {
         this.volumeSlider = volumeSlider;
-        this.volumeLabel = volumeLabel;
     }
 
     @Override

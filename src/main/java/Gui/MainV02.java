@@ -47,7 +47,7 @@ public class MainV02 extends javax.swing.JFrame {
     }
 
     private void configureObservers() {
-        VolumeObserver volumeObserver = new VolumeObserver(this.volumeSlider, this.volumeLabel);
+        VolumeObserver volumeObserver = new VolumeObserver(this.volumeSlider);
         ControlsObserver controlsObserver = new ControlsObserver(this.playPauseStopButton,
                 this.songProgressBar, this.timePassedLabel, this.songDurationLabel);
         PlayersObserver playersObserver = new PlayersObserver(this.playersComboBox);
@@ -74,6 +74,7 @@ public class MainV02 extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         jPanel2 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
@@ -360,7 +361,9 @@ public class MainV02 extends javax.swing.JFrame {
         jButton2.setBorderPainted(false);
 
         volumeLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 13)); // NOI18N
-        volumeLabel.setText("100");
+
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, volumeSlider, org.jdesktop.beansbinding.ELProperty.create("${value}"), volumeLabel, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
 
         playersComboBox.setFont(new java.awt.Font("Helvetica Neue", 0, 13)); // NOI18N
         playersComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Kitchen", "Living Room" }));
@@ -457,6 +460,8 @@ public class MainV02 extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        bindingGroup.bind();
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -519,5 +524,6 @@ public class MainV02 extends javax.swing.JFrame {
     private javax.swing.JLabel volumeLabel;
     private javax.swing.JPanel volumePanel;
     private javax.swing.JSlider volumeSlider;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }
