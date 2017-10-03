@@ -17,6 +17,7 @@
 package Gui;
 
 import Constants.PlayStates;
+import Gui.CellRenderers.QueueItemCellRenderer;
 import Gui.Observers.ControlsObserver;
 import Gui.Observers.MediaObserver;
 import Gui.Observers.ObservablePropertyNames;
@@ -27,6 +28,8 @@ import Gui.Observers.VolumeObserver;
 import PlayerCommands.Player;
 import SystemCommands.Song;
 import java.awt.event.ItemEvent;
+import javafx.scene.layout.Border;
+import javax.swing.BorderFactory;
 
 /**
  *
@@ -44,6 +47,8 @@ public class MainV02 extends javax.swing.JFrame {
         this.viewModel = new MainViewModel();
         this.configureObservers();
         this.viewModel.postInit();
+//        this.queueList.setBorder(null);
+//        jScrollPane1.setViewportBorder(null);
     }
 
     private void configureObservers() {
@@ -107,7 +112,7 @@ public class MainV02 extends javax.swing.JFrame {
         volumeLabel = new javax.swing.JLabel();
         playersComboBox = new javax.swing.JComboBox<>();
         jPanel3 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        queueListScrollPane = new javax.swing.JScrollPane();
         queueList = new javax.swing.JList<>();
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Players"));
@@ -162,11 +167,6 @@ public class MainV02 extends javax.swing.JFrame {
         );
 
         mediaBrowserList.setFont(new java.awt.Font("Helvetica Neue", 0, 12)); // NOI18N
-        mediaBrowserList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane2.setViewportView(mediaBrowserList);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -405,23 +405,31 @@ public class MainV02 extends javax.swing.JFrame {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Queue", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Hiragino Kaku Gothic Std", 0, 16))); // NOI18N
 
+        queueListScrollPane.setBackground(javax.swing.UIManager.getDefaults().getColor("Panel.background"));
+        queueListScrollPane.setOpaque(false);
+        this.queueListScrollPane.getViewport().setOpaque(false);
+
+        queueList.setBackground(javax.swing.UIManager.getDefaults().getColor("Panel.background"));
         queueList.setFont(new java.awt.Font("Helvetica Neue", 0, 12)); // NOI18N
         queueList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            String[] strings = { " ", " ", " ", " ", " ", " ", " ", " ", " " };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane1.setViewportView(queueList);
+        queueList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        queueList.setCellRenderer(new QueueItemCellRenderer());
+        queueList.setSelectionForeground(new java.awt.Color(238, 238, 238));
+        queueListScrollPane.setViewportView(queueList);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
+            .addComponent(queueListScrollPane)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
+            .addComponent(queueListScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -496,7 +504,6 @@ public class MainV02 extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JButton mediaBackButton;
@@ -508,6 +515,7 @@ public class MainV02 extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> playersComboBox;
     private javax.swing.JButton previousMediaButton;
     private javax.swing.JList<String> queueList;
+    private javax.swing.JScrollPane queueListScrollPane;
     private javax.swing.JButton searchButton;
     private javax.swing.JTextField searchMediaTextField;
     private javax.swing.JPanel searchPanel;
