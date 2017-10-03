@@ -47,8 +47,6 @@ public class MainV02 extends javax.swing.JFrame {
         this.viewModel = new MainViewModel();
         this.configureObservers();
         this.viewModel.postInit();
-//        this.queueList.setBorder(null);
-//        jScrollPane1.setViewportBorder(null);
     }
 
     private void configureObservers() {
@@ -406,6 +404,7 @@ public class MainV02 extends javax.swing.JFrame {
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Queue", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Hiragino Kaku Gothic Std", 0, 16))); // NOI18N
 
         queueListScrollPane.setBackground(javax.swing.UIManager.getDefaults().getColor("Panel.background"));
+        queueListScrollPane.setBorder(null);
         queueListScrollPane.setOpaque(false);
         this.queueListScrollPane.getViewport().setOpaque(false);
 
