@@ -263,11 +263,8 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="mediaImageView" alignment="0" min="-2" pref="140" max="-2" attributes="0"/>
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="songPanel" min="-2" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="mediaImageView" min="-2" pref="140" max="-2" attributes="0"/>
+                      <Component id="songPanel" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="292" max="-2" attributes="0"/>
               </Group>
@@ -327,7 +324,7 @@
                       <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="albumNameLabel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="12" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -597,6 +594,7 @@
             </TitledBorder>
           </Border>
         </Property>
+        <Property name="opaque" type="boolean" value="false"/>
       </Properties>
 
       <Layout>
@@ -615,7 +613,7 @@
         <Container class="javax.swing.JScrollPane" name="queueListScrollPane">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ee" green="ee" id="Panel.background" palette="3" red="ee" type="palette"/>
+              <Color blue="33" green="0" red="ff" type="rgb"/>
             </Property>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="null"/>
@@ -623,7 +621,7 @@
             <Property name="opaque" type="boolean" value="false"/>
           </Properties>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="this.queueListScrollPane.getViewport().setOpaque(false);&#xa;"/>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="this.queueListScrollPane.getViewport().setOpaque(false);&#xa;this.queueListScrollPane.getVerticalScrollBar().setUnitIncrement(5);&#xa; this.queueListScrollPane.getVerticalScrollBar().setPreferredSize(new Dimension());"/>
             <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
           </AuxValues>
 
@@ -638,7 +636,7 @@
                   <Font name="Helvetica Neue" size="12" style="0"/>
                 </Property>
                 <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
-                  <StringArray count="9">
+                  <StringArray count="19">
                     <StringItem index="0" value=" "/>
                     <StringItem index="1" value=" "/>
                     <StringItem index="2" value=" "/>
@@ -648,12 +646,23 @@
                     <StringItem index="6" value=" "/>
                     <StringItem index="7" value=" "/>
                     <StringItem index="8" value=" "/>
+                    <StringItem index="9" value=" "/>
+                    <StringItem index="10" value=" "/>
+                    <StringItem index="11" value=" "/>
+                    <StringItem index="12" value=" "/>
+                    <StringItem index="13" value="  "/>
+                    <StringItem index="14" value=" "/>
+                    <StringItem index="15" value=" "/>
+                    <StringItem index="16" value=" "/>
+                    <StringItem index="17" value=" "/>
+                    <StringItem index="18" value=" "/>
                   </StringArray>
                 </Property>
                 <Property name="selectionMode" type="int" value="0"/>
                 <Property name="cellRenderer" type="javax.swing.ListCellRenderer" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                   <Connection code="new QueueItemCellRenderer()" type="code"/>
                 </Property>
+                <Property name="opaque" type="boolean" value="false"/>
                 <Property name="selectionForeground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ee" green="ee" red="ee" type="rgb"/>
                 </Property>

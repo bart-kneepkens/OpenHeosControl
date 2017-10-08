@@ -27,6 +27,8 @@ import ViewModel.MainViewModel;
 import Gui.Observers.VolumeObserver;
 import PlayerCommands.Player;
 import SystemCommands.Song;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ItemEvent;
 import javafx.scene.layout.Border;
 import javax.swing.BorderFactory;
@@ -46,7 +48,7 @@ public class MainV02 extends javax.swing.JFrame {
         initComponents();
         this.viewModel = new MainViewModel();
         this.configureObservers();
-        this.viewModel.postInit();
+//        this.viewModel.postInit();
     }
 
     private void configureObservers() {
@@ -260,7 +262,7 @@ public class MainV02 extends javax.swing.JFrame {
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(albumNameLabel)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -279,9 +281,7 @@ public class MainV02 extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(mediaImageView, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(songPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(songPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(292, 292, 292))
         );
 
@@ -402,21 +402,25 @@ public class MainV02 extends javax.swing.JFrame {
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Queue", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Hiragino Kaku Gothic Std", 0, 16))); // NOI18N
+        jPanel3.setOpaque(false);
 
-        queueListScrollPane.setBackground(javax.swing.UIManager.getDefaults().getColor("Panel.background"));
+        queueListScrollPane.setBackground(new java.awt.Color(255, 0, 51));
         queueListScrollPane.setBorder(null);
         queueListScrollPane.setOpaque(false);
         this.queueListScrollPane.getViewport().setOpaque(false);
+        this.queueListScrollPane.getVerticalScrollBar().setUnitIncrement(5);
+        this.queueListScrollPane.getVerticalScrollBar().setPreferredSize(new Dimension());
 
         queueList.setBackground(javax.swing.UIManager.getDefaults().getColor("Panel.background"));
         queueList.setFont(new java.awt.Font("Helvetica Neue", 0, 12)); // NOI18N
         queueList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { " ", " ", " ", " ", " ", " ", " ", " ", " " };
+            String[] strings = { " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "  ", " ", " ", " ", " ", " " };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
         queueList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         queueList.setCellRenderer(new QueueItemCellRenderer());
+        queueList.setOpaque(false);
         queueList.setSelectionForeground(new java.awt.Color(238, 238, 238));
         queueListScrollPane.setViewportView(queueList);
 
